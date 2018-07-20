@@ -48,22 +48,19 @@ namespace BookLibrary.Web.Pages.Books
                 .ToList();
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                // TODO: Show error messages
-                return;
+                return Page();
             }
 
-            // TODO: If the book has been borrowed for the current period, return an error message
             var borrower = this.Context.Borrowers.Find(this.BorrowerId);
             int bookId = Convert.ToInt32(this.RouteData.Values["id"]);
             var book = this.Context.Books.Find(bookId);
             if (borrower == null || book == null)
             {
-                // TODO: ModelState.AddModelError()
-                return;
+                return Page();
             }
 
             var borrowedBook = new BorrowerBook()
@@ -77,7 +74,7 @@ namespace BookLibrary.Web.Pages.Books
             this.Context.BorrowedBooks.Add(borrowedBook);
             this.Context.SaveChanges();
 
-            //RedirectToPage("/Index");
+            return RedirectToPage("/Index");
         }
     }
 }

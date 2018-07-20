@@ -6,7 +6,6 @@
 <br />
 
 <style>
-    
 </style>
 
 <div class=" container">
@@ -18,8 +17,15 @@
             <h2>@Model.Title</h2>
             <h4>by @Html.DisplayFor(model => model.Author)</h4>
             <p>@Model.Description</p>
-            <h5><b>Status: </b>TO DO</h5>
-            <a class="btn btn-lg btn-warning" asp-page="/Books/Borrow" asp-route-id="@Model.Id">Borrow this book</a>
+            @if (!Model.IsBorrowed)
+            {
+                <h5><b>Status: </b><strong class="text-info">At home</strong></h5>
+                <a class="btn btn-lg btn-warning" asp-page="/Books/Borrow" asp-route-id="@Model.Id">Borrow this book</a>
+            }
+            else
+            {
+                <h5><b>Status: </b><strong class="text-danger">Borrowed</strong></h5>
+            }
         </div>
     </div>
 </div>

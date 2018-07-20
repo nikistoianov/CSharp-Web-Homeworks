@@ -4,5 +4,12 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>TO DO</h2>
+<br />
+<h2>@Model.Name</h2>
+<ul>
+    @foreach (var book in Model.Books)
+    {
+        <li><a href="/Books/Details/@book.BookId">@book.Title</a> (@book.Status)</li>
+    }
+</ul>
 

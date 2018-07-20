@@ -25,6 +25,7 @@ namespace BookLibrary.Web.Pages
         {
             this.Books = this.Context.Books
                 .Include(b => b.Author)
+                .Include(b => b.Borrowers)
                 .OrderBy(b => b.Title)
                 .Select(BookViewModel.FromBook)
                 .ToList();

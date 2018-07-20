@@ -2,6 +2,8 @@
 {
     public class HttpHeader
     {
+        public const string Host = "Host";
+
         public HttpHeader(string key, string value)
         {
             this.Key = key;
