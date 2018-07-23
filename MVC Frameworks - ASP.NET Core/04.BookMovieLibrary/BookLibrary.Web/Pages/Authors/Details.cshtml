@@ -1,0 +1,15 @@
+﻿@page "{id}"
+@model BookLibrary.Web.Pages.Authors.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br />
+<h2>@Model.Name</h2>
+<ul>
+    @foreach (var book in Model.Books)
+    {
+        <li><a href="/Books/Details/@book.BookId">@book.Title</a> (@book.Status)</li>
+    }
+</ul>
+
