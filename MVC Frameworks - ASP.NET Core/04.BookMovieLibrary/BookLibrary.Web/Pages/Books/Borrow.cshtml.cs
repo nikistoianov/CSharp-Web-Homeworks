@@ -1,11 +1,10 @@
 ﻿using BookLibrary.Data;
 using BookLibrary.Models;
+using BookLibrary.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BookLibrary.Web.Pages.Books
@@ -15,31 +14,17 @@ namespace BookLibrary.Web.Pages.Books
         public BorrowModel(BookLibraryContext context)
         {
             this.Context = context;
-            this.Borrowers = new List<SelectListItem>();
-            this.StartDate = DateTime.Now;
+            this.BorrowForm = new BorrowViewModel(); 
         }
 
         public BookLibraryContext Context { get; private set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "You have to specify a borrower.")]
-        [Display(Name = "Borrower")]
-        public int BorrowerId { get; set; }
-
-        [BindProperty]
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
-        
-        [BindProperty]
-        [DataType(DataType.Date)]
-        public DateTime? EndDate { get; set; }
-
-        public IEnumerable<SelectListItem> Borrowers { get; set; }
+        public BorrowViewModel BorrowForm { get; set; }
 
         public void OnGet()
         {
-            this.Borrowers = this.Context.Borrowers
+            this.BorrowForm.Borrowers = this.Context.Borrowers
                 .Select(b => new SelectListItem()
                 {
                     Text = b.Name,
@@ -55,7 +40,7 @@ namespace BookLibrary.Web.Pages.Books
                 return Page();
             }
 
-            var borrower = this.Context.Borrowers.Find(this.BorrowerId);
+            var borrower = this.Context.Borrowers.Find(this.BorrowForm.BorrowerId);
             int bookId = Convert.ToInt32(this.RouteData.Values["id"]);
             var book = this.Context.Books.Find(bookId);
             if (borrower == null || book == null)
@@ -67,8 +52,8 @@ namespace BookLibrary.Web.Pages.Books
             {
                 BookId = book.Id,
                 BorrowerId = borrower.Id,
-                StartDate = this.StartDate,
-                EndDate = this.EndDate
+                StartDate = this.BorrowForm.StartDate,
+                EndDate = this.BorrowForm.EndDate
             };
 
             this.Context.BorrowedBooks.Add(borrowedBook);

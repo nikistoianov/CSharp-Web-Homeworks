@@ -30,6 +30,7 @@ namespace BookLibrary.Web.Pages.Authors
             var author = this.Context.Authors
                 .Where(x => x.Id == id)
                 .Include(x => x.Books)
+                .ThenInclude(x => x.Borrowers)
                 .FirstOrDefault();
 
             if (author == null)

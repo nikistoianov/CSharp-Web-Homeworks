@@ -10,7 +10,8 @@
 
         public string Title { get; set; }
 
-        public string Director { get; set; }
+        //public string Director { get; set; }
+        public LinkViewModel Director { get; set; }
 
         public string ImageUrl { get; set; }
 
@@ -26,7 +27,13 @@
                 {
                     MovieId = movie.Id,
                     Title = movie.Title,
-                    Director = movie.Director.Name,
+                    Director = new LinkViewModel()
+                    {
+                        DisplayText = movie.Director.Name,
+                        ControllerName = "Directors",
+                        ActionName = "Details",
+                        Id = movie.DirectorId
+                    },
                     ImageUrl = movie.PosterImage,
                     Description = movie.Description,
                     IsBorrowed = movie.Borrowers != null && movie.Borrowers.Any(x =>

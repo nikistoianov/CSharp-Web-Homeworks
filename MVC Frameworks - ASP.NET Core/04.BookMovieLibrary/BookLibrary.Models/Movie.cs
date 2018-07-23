@@ -6,7 +6,7 @@ namespace BookLibrary.Models
     {
         public Movie()
         {
-            this.Borrowers = new HashSet<BorrowerBook>();
+            this.Borrowers = new HashSet<BorrowerMovie>();
         }
 
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace BookLibrary.Models
         public int DirectorId { get; set; }
         public Director Director { get; set; }
 
-        public ICollection<BorrowerBook> Borrowers { get; set; }
+        public ICollection<BorrowerMovie> Borrowers { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using BookLibrary.Web.Models.ViewModels;
 
 namespace BookLibrary.Web.Pages.Books
 {
@@ -18,7 +19,8 @@ namespace BookLibrary.Web.Pages.Books
 
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        //public string Author { get; set; }
+        public LinkViewModel Author { get; set; }
 
         public string ImageUrl { get; set; }
 
@@ -43,7 +45,13 @@ namespace BookLibrary.Web.Pages.Books
             this.Title = book.Title;
             this.Description = book.Description;
             this.ImageUrl = book.CoverImage;
-            this.Author = book.Author.Name;
+            this.Author = new LinkViewModel()
+            {
+                DisplayText = book.Author.Name,
+                ControllerName = "Authors",
+                ActionName = "Details",
+                Id = book.AuthorId
+            };
             this.IsBorrowed = book.Borrowers.Any(x => (x.EndDate != null && x.EndDate > DateTime.Now) || x.EndDate == null);
 
             return this.Page();

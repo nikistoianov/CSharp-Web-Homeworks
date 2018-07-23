@@ -90,7 +90,31 @@ namespace BookLibrary.Web.Controllers
         [HttpPost]
         public IActionResult Borrow(BorrowViewModel model)
         {
-            return this.View(model);
+            if (!this.ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var borrower = this.context.Borrowers.Find(model.BorrowerId);
+            int movieId = Convert.ToInt32(this.RouteData.Values["id"]);
+            var movie = this.context.Movies.Find(movieId);
+            if (borrower == null || movie == null)
+            {
+                return View();
+            }
+
+            var borrowedMovie = new BorrowerMovie()
+            {
+                MovieId = movie.Id,
+                BorrowerId = borrower.Id,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
+            };
+
+            this.context.BorrowedMovies.Add(borrowedMovie);
+            this.context.SaveChanges();
+
+            return RedirectToPage("/Index");
         }
 
         private Director CreateOrUpdateDirector(MovieBindingModel model)

@@ -11,6 +11,7 @@ namespace BookLibrary.Web.Models.ViewModels
         public BorrowViewModel()
         {
             this.Borrowers = new List<SelectListItem>();
+            this.StartDate = DateTime.Now;
         }
 
         [Required(ErrorMessage = "You have to specify a borrower.")]

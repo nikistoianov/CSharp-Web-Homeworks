@@ -52,8 +52,32 @@ namespace BookLibrary.Web.Pages
                 })
                 .ToList();
 
+            var foundDirectors = this.Context.Directors
+                .Where(d => d.Name.ToLower().Contains(this.SearchTerm.ToLower()))
+                .OrderBy(d => d.Name)
+                .Select(d => new SearchViewModel()
+                {
+                    SearchResult = d.Name,
+                    Id = d.Id,
+                    Type = "Director"
+                })
+                .ToList();
+
+            var foundMovies = this.Context.Movies
+                .Where(m => m.Title.ToLower().Contains(this.SearchTerm.ToLower()))
+                .OrderBy(m => m.Title)
+                .Select(m => new SearchViewModel()
+                {
+                    SearchResult = m.Title,
+                    Id = m.Id,
+                    Type = "Movie"
+                })
+                .ToList();
+
             this.SearchResults.AddRange(foundAuthors);
             this.SearchResults.AddRange(foundBooks);
+            this.SearchResults.AddRange(foundDirectors);
+            this.SearchResults.AddRange(foundMovies);
 
             foreach (var result in this.SearchResults)
             {

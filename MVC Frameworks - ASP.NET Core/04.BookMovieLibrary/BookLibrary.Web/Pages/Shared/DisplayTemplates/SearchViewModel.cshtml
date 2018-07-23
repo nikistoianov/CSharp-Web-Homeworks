@@ -1,6 +1,8 @@
 ﻿@model SearchViewModel
 
 <li>
-    <a href="/Books/Details/@Model.Id">@Html.Raw(Model.SearchResult)</a> (@Model.Type)
+    @*<a href="/@Model.Type/Details/@Model.Id">@Html.Raw(Model.SearchResult)</a> (@Model.Type)*@
+
+    <a asp-controller="@(Model.Type)s" asp-action="Details" asp-route-id="@Model.Id">@Html.Raw(Model.SearchResult)</a> (@Model.Type)
 </li>
 
