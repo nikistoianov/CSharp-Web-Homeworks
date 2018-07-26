@@ -1,0 +1,25 @@
+﻿@model  MoviesDetailsViewModel
+
+<br />
+<div class=" container">
+    <div class="row">
+        <div class="col-sm-4">
+            <img src="@Model.ImageUrl" alt="Cover image for @Model.Title" />
+        </div>
+        <div class="col-sm-8">
+            <h2>@Model.Title</h2>
+            <h4>by @Html.DisplayFor(model => model.Director)</h4>
+            <p>@Model.Description</p>
+            @if (!Model.IsBorrowed)
+            {
+                <h5><b>Status: </b><strong class="text-info">At home</strong></h5>
+                <a class="btn btn-lg btn-warning" asp-controller="Movies" asp-action="Borrow" asp-route-id="@Model.MovieId">Borrow this movie</a>
+            }
+            else
+            {
+                <h5><b>Status: </b><strong class="text-danger">Borrowed</strong></h5>
+            }
+        </div>
+    </div>
+</div>
+
