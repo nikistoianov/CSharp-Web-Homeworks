@@ -15,13 +15,16 @@ namespace BookLibrary.Data
         public DbSet<Director> Directors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<BorrowerMovie> BorrowedMovies { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<BorrowerBook>()
             //    .HasKey(x => new { x.BookId, x.BorrowerId });
 
-
+            modelBuilder.Entity<User>()
+                .HasIndex(x => x.UserName)
+                .IsUnique();
 
             base.OnModelCreating(modelBuilder);
         }

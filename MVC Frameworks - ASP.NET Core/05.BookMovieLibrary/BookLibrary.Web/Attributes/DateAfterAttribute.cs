@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookLibrary.Web.Filters
+namespace BookLibrary.Web.Attributes
 {
     public class DateAfterAttribute : ValidationAttribute
     {
