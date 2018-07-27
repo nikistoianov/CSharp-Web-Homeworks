@@ -26,6 +26,10 @@ namespace BookLibrary.Data
                 .HasIndex(x => x.UserName)
                 .IsUnique();
 
+            modelBuilder.Entity<Book>()
+                .Property(x => x.Status)
+                .HasDefaultValue(Book.STATUS_ATHOME);
+
             base.OnModelCreating(modelBuilder);
         }
     }

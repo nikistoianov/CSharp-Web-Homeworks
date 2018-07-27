@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using BookLibrary.Data;
+using BookLibrary.Web.Attributes;
 using BookLibrary.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,9 +37,18 @@ namespace BookLibrary.Web
             services.AddDbContext<BookLibraryContext>(
                 options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("BookLibrary.Web")));
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+            });
+
             services.AddMvc(options =>
                     {
                         options.Filters.Add<LogExecution>();
+                        options.Filters.Add(new ExceptionFilter());
+                        options.Filters.Add<AuthorizationAttribute>();
                     })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -61,6 +71,8 @@ namespace BookLibrary.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseMvcWithDefaultRoute();
         }

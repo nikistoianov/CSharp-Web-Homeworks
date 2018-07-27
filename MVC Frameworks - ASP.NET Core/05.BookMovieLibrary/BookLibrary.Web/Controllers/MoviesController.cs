@@ -1,5 +1,6 @@
 ﻿using BookLibrary.Data;
 using BookLibrary.Models;
+using BookLibrary.Web.Attributes;
 using BookLibrary.Web.Models.BindingModels;
 using BookLibrary.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpGet]
+        [Authorization]
         public IActionResult Add()
         {
             return View();
@@ -72,7 +74,7 @@ namespace BookLibrary.Web.Controllers
                 return this.NotFound();
             }
 
-            var model = new BorrowViewModel()
+            var model = new BorrowBindingModel()
             {
                 Borrowers = this.context.Borrowers
                     .Select(b => new SelectListItem()
@@ -88,7 +90,7 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Borrow(BorrowViewModel model)
+        public IActionResult Borrow(BorrowBindingModel model)
         {
             if (!this.ModelState.IsValid)
             {

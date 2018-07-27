@@ -1,15 +1,17 @@
-﻿using BookLibrary.Web.Attributes;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace BookLibrary.Web.Models.ViewModels
+﻿namespace BookLibrary.Web.Models.BindingModels
 {
-    public class BorrowViewModel
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
+    using Attributes;
+
+    public class BorrowBindingModel
     {
-        public BorrowViewModel()
+        public BorrowBindingModel()
         {
             this.Borrowers = new List<SelectListItem>();
             this.StartDate = DateTime.Now;
@@ -29,5 +31,7 @@ namespace BookLibrary.Web.Models.ViewModels
 
         [BindNever]
         public IEnumerable<SelectListItem> Borrowers { get; set; }
+
+
     }
 }

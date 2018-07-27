@@ -1,6 +1,6 @@
 ﻿using BookLibrary.Data;
 using BookLibrary.Models;
-using BookLibrary.Web.Models.ViewModels;
+using BookLibrary.Web.Models.BindingModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,13 +14,13 @@ namespace BookLibrary.Web.Pages.Books
         public BorrowModel(BookLibraryContext context)
         {
             this.Context = context;
-            this.BorrowForm = new BorrowViewModel(); 
+            this.BorrowForm = new BorrowBindingModel(); 
         }
 
         public BookLibraryContext Context { get; private set; }
 
         [BindProperty]
-        public BorrowViewModel BorrowForm { get; set; }
+        public BorrowBindingModel BorrowForm { get; set; }
 
         public void OnGet()
         {
@@ -55,6 +55,8 @@ namespace BookLibrary.Web.Pages.Books
                 StartDate = this.BorrowForm.StartDate,
                 EndDate = this.BorrowForm.EndDate
             };
+
+            book.Status = Book.STATUS_BORROWED;
 
             this.Context.BorrowedBooks.Add(borrowedBook);
             this.Context.SaveChanges();

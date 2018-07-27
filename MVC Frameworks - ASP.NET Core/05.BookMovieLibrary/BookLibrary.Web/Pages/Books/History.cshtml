@@ -1,0 +1,17 @@
+﻿@page "{id}"
+@model BookLibrary.Web.Pages.Books.HistoryModel
+
+<h2>Order History for &lt; <strong>@Model.Title</strong> &gt;</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="col-sm-6">Name</th>
+            <th class="col-sm-4">Start Date</th>
+            <th class="col-sm-2">End Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayFor(model => model.Orders)
+    </tbody>
+</table>
+

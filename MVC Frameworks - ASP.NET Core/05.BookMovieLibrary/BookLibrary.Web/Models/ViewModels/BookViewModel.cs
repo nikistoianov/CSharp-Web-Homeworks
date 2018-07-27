@@ -26,10 +26,11 @@
                     Title = book.Title,
                     Author = book.Author.Name,
                     AuthorId = book.Author.Id,
-                    Status = book.Borrowers != null && book.Borrowers.Any(x =>
-                        (x.EndDate != null && x.EndDate > DateTime.Now) || x.EndDate == null)
-                            ? "Borrowed"
-                            : "At home"
+                    //Status = book.Borrowers != null && book.Borrowers.Any(x =>
+                    //    (x.EndDate != null && x.EndDate > DateTime.Now) || x.EndDate == null)
+                    //        ? "Borrowed"
+                    //        : "At home"
+                    Status = book.Status
                 };
 
             }

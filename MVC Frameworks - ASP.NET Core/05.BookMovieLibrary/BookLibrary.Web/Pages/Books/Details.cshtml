@@ -2,8 +2,9 @@
 @model BookLibrary.Web.Pages.Books.DetailsModel
 @{
     ViewData["Title"] = "Details";
+    ViewData["Class"] = Model.IsBorrowed ? "text-danger" : "text-info";
 }
-<br />
+
 <div class=" container">
     <div class="row">
         <div class="col-sm-4">
@@ -13,15 +14,24 @@
             <h2>@Model.Title</h2>
             <h4>by @Html.DisplayFor(model => model.Author)</h4>
             <p>@Model.Description</p>
-            @if (!Model.IsBorrowed)
-            {
-                <h5><b>Status: </b><strong class="text-info">At home</strong></h5>
-                <a class="btn btn-lg btn-warning" asp-page="/Books/Borrow" asp-route-id="@Model.Id">Borrow this book</a>
-            }
-            else
-            {
-                <h5><b>Status: </b><strong class="text-danger">Borrowed</strong></h5>
-            }
+            <h5><b>Status: </b><strong class=@ViewData["Class"]>@Model.Status</strong></h5>
+            <div class="row">
+                <div class="col-sm-auto">
+                    @if (!Model.IsBorrowed)
+                    {
+                        <a class="btn btn-lg btn-warning" asp-page="/Books/Borrow" asp-route-id="@Model.Id">Borrow this book</a>
+                    }
+                    else
+                    {
+                        <form method="post">
+                            <input class="btn btn-lg btn-danger" type="submit" value="Return" />
+                        </form>
+                    }
+                </div>
+                <div class="col-sm-auto">
+                    <a class="btn btn-lg btn-success" asp-page="/Books/History" asp-route-id="@Model.Id">Book History</a>
+                </div>
+            </div>            
         </div>
     </div>
 </div>
