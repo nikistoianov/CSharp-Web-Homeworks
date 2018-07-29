@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace BookLibrary.Web.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AuthorizationAttribute : Attribute, IActionFilter
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    public class AuthorizationAttribute : Attribute, IActionFilter, IPageFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
@@ -23,8 +23,24 @@ namespace BookLibrary.Web.Attributes
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var session = context.HttpContext.Session;
-            session.SetString("user", "niki");
-            context.Result = new RedirectResult("/Login");
+            var user = session.GetString("user");
+            //session.SetString("user", "niki");
+            context.Result = new RedirectToActionResult("Login", "Users", null);
+        }
+
+        public void OnPageHandlerExecuted(PageHandlerExecutedContext context)
+        {
+            
+        }
+
+        public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
+        {
+            context.Result = new RedirectToActionResult("Login", "Users", null);
+        }
+
+        public void OnPageHandlerSelected(PageHandlerSelectedContext context)
+        {
+            
         }
     }
 }

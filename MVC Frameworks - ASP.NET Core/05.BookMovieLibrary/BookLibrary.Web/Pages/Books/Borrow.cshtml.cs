@@ -1,5 +1,6 @@
 ﻿using BookLibrary.Data;
 using BookLibrary.Models;
+using BookLibrary.Web.Attributes;
 using BookLibrary.Web.Models.BindingModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace BookLibrary.Web.Pages.Books
 {
+    [Authorization]
     public class BorrowModel : PageModel
     {
         public BorrowModel(BookLibraryContext context)

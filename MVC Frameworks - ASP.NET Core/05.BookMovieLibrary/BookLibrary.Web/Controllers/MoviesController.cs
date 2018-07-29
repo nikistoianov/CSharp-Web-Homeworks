@@ -28,6 +28,7 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorization]
         public IActionResult Add(MovieBindingModel model)
         {
             if (!this.ModelState.IsValid)
@@ -61,6 +62,7 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpGet]
+        [Authorization]
         public IActionResult Borrow(int id)
         {
             if (id == 0)
@@ -90,6 +92,7 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpPost]
+        [Authorization]
         public IActionResult Borrow(BorrowBindingModel model)
         {
             if (!this.ModelState.IsValid)

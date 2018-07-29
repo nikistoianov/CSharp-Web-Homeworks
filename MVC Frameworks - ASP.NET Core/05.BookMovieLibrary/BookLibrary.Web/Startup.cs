@@ -48,7 +48,6 @@ namespace BookLibrary.Web
                     {
                         options.Filters.Add<LogExecution>();
                         options.Filters.Add(new ExceptionFilter());
-                        options.Filters.Add<AuthorizationAttribute>();
                     })
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

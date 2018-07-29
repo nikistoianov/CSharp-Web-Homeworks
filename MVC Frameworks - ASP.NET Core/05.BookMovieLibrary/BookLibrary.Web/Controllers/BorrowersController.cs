@@ -1,5 +1,6 @@
 ﻿using BookLibrary.Data;
 using BookLibrary.Models;
+using BookLibrary.Web.Attributes;
 using BookLibrary.Web.Models.BindingModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,12 +20,14 @@ namespace BookLibrary.Web.Controllers
         }
 
         [HttpGet]
+        [Authorization]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorization]
         public IActionResult Add(BorrowerBindingModel model)
         {
             if (!this.ModelState.IsValid)

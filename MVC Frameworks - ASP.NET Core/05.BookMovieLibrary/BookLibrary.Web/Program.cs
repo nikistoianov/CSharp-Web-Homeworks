@@ -21,7 +21,7 @@ namespace BookLibrary.Web
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.File(
-                @"F:\base\2\BookLibraryLog.txt",
+                @"E:\base\2\BookLibraryLog.txt",
                 fileSizeLimitBytes: 1_000_000,
                 rollOnFileSizeLimit: true,
                 shared: true,

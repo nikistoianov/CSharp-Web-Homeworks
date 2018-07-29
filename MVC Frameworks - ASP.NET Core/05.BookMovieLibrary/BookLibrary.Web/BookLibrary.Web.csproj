@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookLibrary.Common\BookLibrary.Common.csproj" />
     <ProjectReference Include="..\BookLibrary.Data\BookLibrary.Data.csproj" />
     <ProjectReference Include="..\BookLibrary.Models\BookLibrary.Models.csproj" />
   </ItemGroup>
@@ -26,6 +27,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Users\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\_ViewImports.cshtml">
