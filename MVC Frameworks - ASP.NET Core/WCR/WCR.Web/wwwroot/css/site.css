@@ -1,8 +1,16 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+﻿
+@font-face {
+    font-family: Fifa;
+    src: url('../fonts/FIFA_World_Cup_2018.ttf');
+}
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url("../images/background-pattern.jpg");
+    background-size: 400px;
 }
 
 /* Wrapping element */
@@ -34,4 +42,13 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+.font-fifa {
+    font-family: Fifa
+}
+
+.navbar-fifa {
+    background-image: url('../images/background-top.jpg');
+    font-family: Fifa;
 }
