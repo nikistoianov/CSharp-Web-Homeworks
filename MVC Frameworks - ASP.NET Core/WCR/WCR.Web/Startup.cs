@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using WCR.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WCR.Models;
 
 namespace WCR.Web
 {
@@ -37,12 +38,18 @@ namespace WCR.Web
             services.AddDbContext<WCRDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("WCRConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<WCRDbContext>();
 
             services.Configure<IdentityOptions>(options => 
             {
-                options.Password.RequiredLength = 3;
+                options.Password = new PasswordOptions()
+                {
+                    RequiredLength = 3,
+                    RequireNonAlphanumeric = false,
+                    RequireLowercase = false,
+                    RequireUppercase = false
+                };
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
