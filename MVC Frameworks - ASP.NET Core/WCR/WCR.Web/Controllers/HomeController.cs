@@ -11,11 +11,11 @@ namespace WCR.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly RoleManager<IdentityRole> roleManager;
-        public HomeController(RoleManager<IdentityRole> roleManager)
-        {
-            this.roleManager = roleManager;
-        }
+        //private readonly RoleManager<IdentityRole> roleManager;
+        //public HomeController(RoleManager<IdentityRole> roleManager)
+        //{
+        //    this.roleManager = roleManager;
+        //}
 
         public IActionResult Index()
         {
@@ -24,8 +24,8 @@ namespace WCR.Web.Controllers
 
         public IActionResult Rules()
         {
-            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
-            hasAdminRole.Wait();
+            //Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
+            //hasAdminRole.Wait();
 
             ViewData["Message"] = "Your application description page.";
 

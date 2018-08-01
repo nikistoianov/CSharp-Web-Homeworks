@@ -11,6 +11,8 @@ body {
     padding-bottom: 20px;
     background-image: url("../images/background-pattern.jpg");
     background-size: 400px;
+    font-family: Fifa;
+    font-size: 17px;
 }
 
 /* Wrapping element */

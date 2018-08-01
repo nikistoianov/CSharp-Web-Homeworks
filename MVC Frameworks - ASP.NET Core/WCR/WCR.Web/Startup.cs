@@ -37,10 +37,15 @@ namespace WCR.Web
 
             services.AddDbContext<WCRDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("WCRConnection")));
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<WCRDbContext>();
+
             //services.AddDefaultIdentity<User>()
+            //    .AddRoles<IdentityRole>()
             //    .AddEntityFrameworkStores<WCRDbContext>();
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<WCRDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -83,26 +88,23 @@ namespace WCR.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            CreateRoles(serviceProvider);
+            //var roles = new string[] { "Administrator", "Moderator"};
+            var roles = this.Configuration.GetSection("Roles").AsEnumerable().Select(x => x.Value).Skip(1).ToArray();
+            CreateRoles(serviceProvider, roles);
         }
 
-        private void CreateRoles(IServiceProvider serviceProvider)
+        private void CreateRoles(IServiceProvider serviceProvider, string[] roles)
         {
 
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            Task<IdentityResult> roleResult;
             string userName = "niki";
 
             //Check that there is an Administrator role and create if not
-            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
-            hasAdminRole.Wait();
-
-            if (!hasAdminRole.Result)
+            foreach (var role in roles)
             {
-                roleResult = roleManager.CreateAsync(new IdentityRole("Administrator"));
-                roleResult.Wait();
-            }
+                CreateRole(roleManager, role);
+            }            
 
             //Check if the admin user exists and create it if not
             //Add to the Administrator role
@@ -124,6 +126,26 @@ namespace WCR.Web
                     Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Administrator");
                     newUserRole.Wait();
                 }
+            }
+            else
+            {
+                Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(testUser.Result, "Administrator");
+                newUserRole.Wait();
+
+                var userRoles = userManager.GetRolesAsync(testUser.Result);
+                userRoles.Wait();
+            }
+        }
+
+        private static void CreateRole(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            var hasAdminRole = roleManager.RoleExistsAsync(roleName);
+            hasAdminRole.Wait();
+
+            if (!hasAdminRole.Result)
+            {
+                var roleResult = roleManager.CreateAsync(new IdentityRole(roleName));
+                roleResult.Wait();
             }
         }
     }
