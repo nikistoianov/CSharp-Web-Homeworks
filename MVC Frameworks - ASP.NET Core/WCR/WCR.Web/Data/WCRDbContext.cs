@@ -13,7 +13,7 @@ namespace WCR.Web.Data
         public DbSet<Match> Matches { get; set; }
         public DbSet<MatchBet> MatchBets { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<GroupBet> GroupBets { get; set; }
+        public DbSet<PositionBet> GroupBets { get; set; }
 
         public WCRDbContext(DbContextOptions<WCRDbContext> options)
             : base(options)
@@ -22,8 +22,7 @@ namespace WCR.Web.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Group>()
-                .Property(x => x.FirstTeam)
+            
             base.OnModelCreating(builder);
         }
     }
