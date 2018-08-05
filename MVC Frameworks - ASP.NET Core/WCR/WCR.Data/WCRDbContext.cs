@@ -9,9 +9,21 @@ namespace WCR.Web.Data
 {
     public class WCRDbContext : IdentityDbContext<User>
     {
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Match> Matches { get; set; }
+        public DbSet<MatchBet> MatchBets { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<PositionBet> GroupBets { get; set; }
+
         public WCRDbContext(DbContextOptions<WCRDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            
+            base.OnModelCreating(builder);
         }
     }
 }
