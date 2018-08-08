@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WCR.Models
+﻿namespace WCR.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Identity;
+
     public class User : IdentityUser
     {
         public User()
         {
-            this.MatchBets = new List<MatchBet>();
-            this.GroupBets = new List<PositionBet>();
+            this.BetsForMatches = new List<BetMatch>();
+            this.BetsForPosition = new List<BetPosition>();
         }
 
+        [Required]
+        [StringLength(6, MinimumLength = 3)]
         public string ShortName { get; set; }
 
-        public ICollection<MatchBet> MatchBets { get; set; }
-
-        public ICollection<PositionBet> GroupBets { get; set; }
-
+        public ICollection<BetMatch> BetsForMatches { get; set; }
+        public ICollection<BetPosition> BetsForPosition { get; set; }
     }
 }

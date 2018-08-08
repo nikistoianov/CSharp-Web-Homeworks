@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WCR.Models
+﻿namespace WCR.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Match
     {
         public Match()
         {
-            this.Bets = new List<MatchBet>();
+            this.Bets = new List<BetMatch>();
         }
 
         public int Id { get; set; }
@@ -27,6 +26,6 @@ namespace WCR.Models
 
         public DateTime Date { get; set; }
 
-        public ICollection<MatchBet> Bets { get; set; }
+        public ICollection<BetMatch> Bets { get; set; }
     }
 }

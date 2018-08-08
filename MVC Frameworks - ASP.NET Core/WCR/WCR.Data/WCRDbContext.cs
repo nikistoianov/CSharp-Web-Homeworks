@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WCR.Models;
 
-namespace WCR.Web.Data
+namespace WCR.Data
 {
     public class WCRDbContext : IdentityDbContext<User>
     {
         public DbSet<Team> Teams { get; set; }
         public DbSet<Match> Matches { get; set; }
-        public DbSet<MatchBet> MatchBets { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<PositionBet> GroupBets { get; set; }
+        public DbSet<BetMatch> BetsForMatch { get; set; }
+        public DbSet<BetPosition> BetsForPosition { get; set; }
 
         public WCRDbContext(DbContextOptions<WCRDbContext> options)
             : base(options)
@@ -22,7 +22,22 @@ namespace WCR.Web.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+            builder.Entity<BetPosition>()
+                .HasKey(x => new { x.UserId, x.TeamId});
+
+            builder.Entity<Match>(ent =>
+            {
+                ent.HasOne(x => x.FirstTeam)
+                   .WithMany(x => x.HomeMatches)
+                   .HasForeignKey(x => x.FirstTeamId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+                ent.HasOne(x => x.SecondTeam)
+                   .WithMany(x => x.GuestMatches)
+                   .HasForeignKey(x => x.SecondTeamId)
+                   .OnDelete(DeleteBehavior.Restrict);
+            });
+
             base.OnModelCreating(builder);
         }
     }

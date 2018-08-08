@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WCR.Web.Data;
 
 [assembly: HostingStartup(typeof(WCR.Web.Areas.Identity.IdentityHostingStartup))]
 namespace WCR.Web.Areas.Identity

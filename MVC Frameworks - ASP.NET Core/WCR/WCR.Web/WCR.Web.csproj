@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WCR.Data\WCR.Data.csproj" />
     <ProjectReference Include="..\WCR.Models\WCR.Models.csproj" />
   </ItemGroup>
 

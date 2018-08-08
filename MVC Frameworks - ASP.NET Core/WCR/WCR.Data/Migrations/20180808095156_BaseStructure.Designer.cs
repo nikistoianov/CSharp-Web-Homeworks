@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WCR.Web.Data;
+using WCR.Data;
 
-namespace WCR.Web.Data.Migrations
+namespace WCR.Data.Migrations
 {
     [DbContext(typeof(WCRDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180808095156_BaseStructure")]
+    partial class BaseStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,11 +87,9 @@ namespace WCR.Web.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -120,17 +120,117 @@ namespace WCR.Web.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("WCR.Models.BetMatch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FirstTeamGoals");
+
+                    b.Property<int>("MatchId");
+
+                    b.Property<int>("SecondTeamGoals");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BetsForMatch");
+                });
+
+            modelBuilder.Entity("WCR.Models.BetPosition", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<int>("TeamId");
+
+                    b.Property<int>("Position");
+
+                    b.HasKey("UserId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("BetsForPosition");
+                });
+
+            modelBuilder.Entity("WCR.Models.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("WCR.Models.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int?>("FirstTeamGoals");
+
+                    b.Property<int>("FirstTeamId");
+
+                    b.Property<int>("RoundIndex");
+
+                    b.Property<int?>("SecondTeamGoals");
+
+                    b.Property<int>("SecondTeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirstTeamId");
+
+                    b.HasIndex("SecondTeamId");
+
+                    b.ToTable("Matches");
+                });
+
+            modelBuilder.Entity("WCR.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId");
+
+                    b.Property<int?>("GroupPosition");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("WCR.Models.User", b =>
@@ -166,7 +266,9 @@ namespace WCR.Web.Data.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("ShortName");
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasMaxLength(6);
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -228,6 +330,53 @@ namespace WCR.Web.Data.Migrations
                     b.HasOne("WCR.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WCR.Models.BetMatch", b =>
+                {
+                    b.HasOne("WCR.Models.Match", "Match")
+                        .WithMany("Bets")
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WCR.Models.User", "User")
+                        .WithMany("BetsForMatches")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WCR.Models.BetPosition", b =>
+                {
+                    b.HasOne("WCR.Models.Team", "Team")
+                        .WithMany("BetsForPosition")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WCR.Models.User", "User")
+                        .WithMany("BetsForPosition")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WCR.Models.Match", b =>
+                {
+                    b.HasOne("WCR.Models.Team", "FirstTeam")
+                        .WithMany("HomeMatches")
+                        .HasForeignKey("FirstTeamId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WCR.Models.Team", "SecondTeam")
+                        .WithMany("GuestMatches")
+                        .HasForeignKey("SecondTeamId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("WCR.Models.Team", b =>
+                {
+                    b.HasOne("WCR.Models.Group", "Group")
+                        .WithMany("Teams")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

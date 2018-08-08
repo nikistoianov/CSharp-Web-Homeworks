@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WCR.Web.Data;
+using WCR.Data;
 
-namespace WCR.Web.Data.Migrations
+namespace WCR.Data.Migrations
 {
     [DbContext(typeof(WCRDbContext))]
     [Migration("20180730184219_UserShortName")]

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WCR.Models;
-using WCR.Web.Data;
+using WCR.Data;
 using WCR.Web.Models.ViewModels;
 
 namespace WCR.Web.Controllers

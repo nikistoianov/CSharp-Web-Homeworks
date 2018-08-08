@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WCR.Web.Data.Migrations
+namespace WCR.Data.Migrations
 {
     public partial class UserShortName : Migration
     {

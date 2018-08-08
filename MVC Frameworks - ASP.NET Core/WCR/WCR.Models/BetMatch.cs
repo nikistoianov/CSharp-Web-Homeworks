@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WCR.Models
+﻿namespace WCR.Models
 {
-    public class MatchBet
+    using System.ComponentModel.DataAnnotations;
+
+    public class BetMatch
     {
         public int Id { get; set; }
 
@@ -15,7 +13,8 @@ namespace WCR.Models
         public int MatchId { get; set; }
         public Match Match { get; set; }
 
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }

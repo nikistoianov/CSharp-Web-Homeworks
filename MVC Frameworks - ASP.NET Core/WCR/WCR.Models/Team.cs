@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace WCR.Models
+﻿namespace WCR.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public class Team
     {
+        public Team()
+        {
+            this.HomeMatches = new List<Match>();
+            this.GuestMatches = new List<Match>();
+            this.BetsForPosition = new List<BetPosition>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -16,5 +21,10 @@ namespace WCR.Models
         public Group Group { get; set; }
 
         public int? GroupPosition { get; set; }
+
+        public ICollection<Match> HomeMatches { get; set; }
+        public ICollection<Match> GuestMatches { get; set; }
+
+        public ICollection<BetPosition> BetsForPosition { get; set; }
     }
 }

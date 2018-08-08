@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WCR.Web.Data;
+using WCR.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WCR.Models;
@@ -18,9 +18,23 @@ namespace WCR.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile(@"F:\base\customSettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
+                //builder.AddApplicationInsightsSettings(developerMode: true);
+            }
+            Configuration = builder.Build();
+
+            //Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -46,7 +60,7 @@ namespace WCR.Web
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<WCRDbContext>();
-
+            
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password = new PasswordOptions()
@@ -56,7 +70,16 @@ namespace WCR.Web
                     RequireLowercase = false,
                     RequireUppercase = false
                 };
-            });            
+            });
+
+            services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppId").Value;
+                    options.AppSecret = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppSecret").Value;
+                });
+
+            //services.Configure<CustomSection1>(options => Configuration.GetSection("CustomSection1").Bind(options));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -90,7 +113,7 @@ namespace WCR.Web
 
             //var roles = new string[] { "Administrator", "Moderator"};
             var roles = this.Configuration.GetSection("Roles").AsEnumerable().Select(x => x.Value).Skip(1).ToArray();
-            CreateRoles(serviceProvider, roles);
+            //CreateRoles(serviceProvider, roles);
         }
 
         private void CreateRoles(IServiceProvider serviceProvider, string[] roles)
