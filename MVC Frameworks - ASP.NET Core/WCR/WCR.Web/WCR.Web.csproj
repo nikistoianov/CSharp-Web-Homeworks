@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
   </ItemGroup>
@@ -17,6 +18,12 @@
   <ItemGroup>
     <ProjectReference Include="..\WCR.Data\WCR.Data.csproj" />
     <ProjectReference Include="..\WCR.Models\WCR.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Competition\Round.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -38,6 +38,10 @@ namespace WCR.Data
                    .OnDelete(DeleteBehavior.Restrict);
             });
 
+            builder.Entity<User>()
+                .HasIndex(x => x.ShortName)
+                .IsUnique();                
+
             base.OnModelCreating(builder);
         }
     }

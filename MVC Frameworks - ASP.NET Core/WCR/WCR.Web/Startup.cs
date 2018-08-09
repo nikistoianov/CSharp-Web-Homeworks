@@ -13,18 +13,23 @@ using WCR.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WCR.Models;
+using System.IO;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using WCR.Web.Common;
+using AutoMapper;
 
 namespace WCR.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
+            var appLocalFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), env.ApplicationName);
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile(@"F:\base\customSettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($@"{appLocalFolder}\customSettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
@@ -63,6 +68,12 @@ namespace WCR.Web
             
             services.Configure<IdentityOptions>(options =>
             {
+                options.User = new UserOptions()
+                {
+                    AllowedUserNameCharacters = null,
+                    RequireUniqueEmail = true
+                };
+
                 options.Password = new PasswordOptions()
                 {
                     RequiredLength = 3,
@@ -79,13 +90,16 @@ namespace WCR.Web
                     options.AppSecret = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppSecret").Value;
                 });
 
-            //services.Configure<CustomSection1>(options => Configuration.GetSection("CustomSection1").Bind(options));
+            //services.Configure<FacebookOptions>(options => Configuration.GetSection("ExternalAuthentication:Facebook").Bind(options));
+
+            services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider,
+            RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -103,6 +117,10 @@ namespace WCR.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+
+
+            app.SeedRoles(this.Configuration, roleManager);
 
             app.UseMvc(routes =>
             {
