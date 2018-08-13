@@ -10,8 +10,10 @@ namespace WCR.Web.Models.ViewModels
         public RoundViewModel()
         {
             this.Users = new List<UserDetailsViewModel>();
+            this.Matches = new List<MatchViewModel>();
         }
 
-        public List<UserDetailsViewModel> Users { get; set; }
+        public ICollection<UserDetailsViewModel> Users { get; set; }
+        public ICollection<MatchViewModel> Matches { get; set; }
     }
 }
