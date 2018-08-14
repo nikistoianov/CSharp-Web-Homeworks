@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Web", "WCR.Web\WCR.Web.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Data", "WCR.Data\WCR.Data.csproj", "{EADEBCD1-08D8-4C67-B3D2-4258E3CD746B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCR.Models", "WCR.Models\WCR.Models.csproj", "{DB5D982B-FB71-4B4F-AF14-09FB8D545CF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Models", "WCR.Models\WCR.Models.csproj", "{DB5D982B-FB71-4B4F-AF14-09FB8D545CF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

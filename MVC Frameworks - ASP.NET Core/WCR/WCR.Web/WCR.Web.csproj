@@ -25,7 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Moderation\Pages\Add\Team.cshtml">
+    <Content Update="Areas\Moderation\Pages\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Moderation\Pages\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Competition\Round.cshtml">
