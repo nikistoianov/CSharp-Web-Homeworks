@@ -25,7 +25,7 @@ namespace BookLibrary.Web.Attributes
             var session = context.HttpContext.Session;
             var user = session.GetString("user");
             //session.SetString("user", "niki");
-            context.Result = new RedirectToActionResult("Login", "Users", null);
+            //context.Result = new RedirectToActionResult("Login", "Users", null);
         }
 
         public void OnPageHandlerExecuted(PageHandlerExecutedContext context)
