@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Data", "WCR.Data\WCR.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Models", "WCR.Models\WCR.Models.csproj", "{DB5D982B-FB71-4B4F-AF14-09FB8D545CF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCR.Services", "WCR.Services\WCR.Services.csproj", "{44BB28D1-B03D-405C-83A7-6BBE4EF0BA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Services", "WCR.Services\WCR.Services.csproj", "{44BB28D1-B03D-405C-83A7-6BBE4EF0BA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCR.Common", "WCR.Common\WCR.Common.csproj", "{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Common", "WCR.Common\WCR.Common.csproj", "{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
