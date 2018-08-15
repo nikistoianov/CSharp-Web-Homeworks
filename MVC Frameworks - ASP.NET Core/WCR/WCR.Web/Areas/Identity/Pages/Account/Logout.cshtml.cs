@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WCR.Models;
+using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web.Areas.Identity.Pages.Account
 {

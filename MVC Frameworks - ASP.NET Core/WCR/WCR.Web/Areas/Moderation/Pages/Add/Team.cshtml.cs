@@ -8,42 +8,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WCR.Common.Moderation.BindingModels;
+using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web.Areas.Moderation.Pages.Add
 {
     [Authorize(Roles = "Administrator, Moderator")]
     public class TeamModel : PageModel
     {
-        public TeamModel()
+        private readonly IModerationService moderationService;
+
+        public TeamModel(IModerationService moderationService)
         {
-            this.Input = new InputModel();
+            this.Input = new TeamCreationBindingModel();
+            this.moderationService = moderationService;
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public TeamCreationBindingModel Input { get; set; }
 
-        public class InputModel
+        public async void OnGet()
         {
-            public InputModel()
-            {
-                this.Groups = new List<SelectListItem>();
-            }
-
-            [Required]
-            [Display(Name = "Team name")]
-            public string Name { get; set; }
-
-            [Required(ErrorMessage = "You have to specify a group.")]
-            [Display(Name = "Group")]
-            public int GroupId { get; set; }
-
-            [BindNever]
-            public IEnumerable<SelectListItem> Groups { get; set; }
+            var model = await this.moderationService.PrepareTeamCreation();
+            this.Input = model;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            this.Input.Groups = new List<SelectListItem> { new SelectListItem { Value = "1" , Text = "Test"} };
+            var result = await this.moderationService.CreateTeam(Input);
+            if (result == null)
+            {
+                return Redirect(returnUrl ?? "/");
+            }
+            ModelState.AddModelError(string.Empty, result);
+            return Page();
         }
     }
 }

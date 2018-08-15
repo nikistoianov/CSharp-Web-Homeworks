@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WCR.Services.Moderation.Interfaces;
 using WCR.Web.Models;
 
 namespace WCR.Web.Controllers
@@ -12,9 +13,9 @@ namespace WCR.Web.Controllers
     public class HomeController : Controller
     {
         //private readonly RoleManager<IdentityRole> roleManager;
-        //public HomeController(RoleManager<IdentityRole> roleManager)
+        //public HomeController(RoleManager<IdentityRole> roleManager, ITest moderationService)
         //{
-        //    this.roleManager = roleManager;
+        //    //this.roleManager = roleManager;
         //}
 
         public IActionResult Index()

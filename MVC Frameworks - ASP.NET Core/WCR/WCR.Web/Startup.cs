@@ -17,6 +17,8 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using WCR.Web.Common;
 using AutoMapper;
+using WCR.Services.Moderation;
+using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web
 {
@@ -61,7 +63,8 @@ namespace WCR.Web
             //    .AddRoles<IdentityRole>()
             //    .AddEntityFrameworkStores<WCRDbContext>();
 
-            services.AddIdentity<User, IdentityRole>()
+            services
+                .AddIdentity<User, IdentityRole>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<WCRDbContext>();
@@ -94,6 +97,8 @@ namespace WCR.Web
 
             services.AddAutoMapper();
 
+            RegisterServiceLayer(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -115,10 +120,7 @@ namespace WCR.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
-
-
 
             app.SeedRoles(this.Configuration, roleManager);
 
@@ -135,6 +137,14 @@ namespace WCR.Web
             //var roles = new string[] { "Administrator", "Moderator"};
             var roles = this.Configuration.GetSection("Roles").AsEnumerable().Select(x => x.Value).Skip(1).ToArray();
             //CreateRoles(serviceProvider, roles);
+        }
+
+        private static void RegisterServiceLayer(IServiceCollection services)
+        {
+            services.AddScoped<IModerationService, ModerationService>();
+            //services.AddScoped<IAdminCourseInstancesService, AdminCourseInstancesService>();
+
+            //services.AddScoped<ILecturerCourseInstancesService, LecturerCourseInstancesService>();
         }
 
         private void CreateRoles(IServiceProvider serviceProvider, string[] roles)

@@ -6,33 +6,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WCR.Common.Moderation.BindingModels;
+using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web.Areas.Moderation.Pages.Add
 {
     [Authorize(Roles = "Administrator, Moderator")]
     public class GroupModel : PageModel
     {
-        [BindProperty]
-        public InputModel Input { get; set; }
+        private readonly IModerationService moderationService;
 
-        public class InputModel
-        {           
-            [Required]
-            [Display(Name = "Group name")]
-            public string Name { get; set; }
-
-            [Required]
-            public DateTime Date { get; set; }
-
+        public GroupModel(IModerationService moderationService)
+        {
+            this.Input = new GroupCreationBindingModel();
+            this.moderationService = moderationService;
         }
+
+        [BindProperty]
+        public GroupCreationBindingModel Input { get; set; }
+
         public void OnGet()
         {
-
+            this.Input.Date = DateTime.Now;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-
+            var result = await this.moderationService.CreateGroup(Input);
+            if (result == null)
+            {
+                return Redirect(returnUrl ?? "/");
+            }
+            ModelState.AddModelError(string.Empty, result);
             return Page();
         }
     }

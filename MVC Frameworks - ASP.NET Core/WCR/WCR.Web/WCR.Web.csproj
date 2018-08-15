@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WCR.Data\WCR.Data.csproj" />
     <ProjectReference Include="..\WCR.Models\WCR.Models.csproj" />
+    <ProjectReference Include="..\WCR.Services\WCR.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

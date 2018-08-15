@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using WCR.Models;
 using WCR.Data;
 using WCR.Web.Models.ViewModels;
+using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web.Controllers
 {

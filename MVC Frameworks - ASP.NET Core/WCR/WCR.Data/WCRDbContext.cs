@@ -17,8 +17,7 @@ namespace WCR.Data
 
         public WCRDbContext(DbContextOptions<WCRDbContext> options)
             : base(options)
-        {
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
