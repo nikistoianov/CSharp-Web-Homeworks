@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WCR.Web.Models.ViewModels
-{    
+namespace WCR.Web.Areas.Administration.Models.ViewModels
+{
     public class AdminUsersViewModel
     {
         public AdminUsersViewModel()

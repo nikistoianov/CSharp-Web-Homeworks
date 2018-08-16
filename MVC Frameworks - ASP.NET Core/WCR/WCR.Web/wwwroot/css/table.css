@@ -140,12 +140,12 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
-table {
+table100 {
     width: 100%;
     background-color: #fff;
 }
 
-th, td {
+table100 th, td {
     font-weight: unset;
     padding-right: 10px;
 }
@@ -204,14 +204,13 @@ th, td {
     /*font-size: 20px;*/
 }
 
-th {
+table100 th {
     /*font-family: Montserrat-Medium;*/
     font-family: Fifa;
     font-size: 16px;
     color: #fff;
     line-height: 1.4;
     text-transform: uppercase;
-
     background-color: rgba(255,255,255,0.32);
 }
 
@@ -226,7 +225,7 @@ th {
     /*background: -o-linear-gradient(-68deg, #ac32e4 , #4801ff);*/
     /*background: -moz-linear-gradient(-68deg, #ac32e4 , #4801ff);*/
     /*background: linear-gradient(-68deg, #2f90e4, #2100ff);*/
-    background-image: url('../images/football_pitch-wallpaper-1920x1200.jpg');
+    background-image: url('../images/football_pitch.jpg');
     -webkit-background-size: contain;
     -moz-background-size: contain;
     -o-background-size: contain;
@@ -284,7 +283,7 @@ th {
     font-size: 18px;
 }
 
-td {
+table100 td {
     font-family: Fifa;
     /*font-family: Montserrat-Regular;*/
     font-size: 16px;

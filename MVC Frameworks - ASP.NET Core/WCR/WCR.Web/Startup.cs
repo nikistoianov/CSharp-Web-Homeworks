@@ -19,6 +19,8 @@ using WCR.Web.Common;
 using AutoMapper;
 using WCR.Services.Moderation;
 using WCR.Services.Moderation.Interfaces;
+using WCR.Services.Administration.Interfaces;
+using WCR.Services.Administration;
 
 namespace WCR.Web
 {
@@ -142,6 +144,7 @@ namespace WCR.Web
         private static void RegisterServiceLayer(IServiceCollection services)
         {
             services.AddScoped<IModerationService, ModerationService>();
+            services.AddScoped<IAdminService, AdminService>();
             //services.AddScoped<IAdminCourseInstancesService, AdminCourseInstancesService>();
 
             //services.AddScoped<ILecturerCourseInstancesService, LecturerCourseInstancesService>();

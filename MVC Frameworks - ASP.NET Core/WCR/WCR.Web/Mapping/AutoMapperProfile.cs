@@ -16,6 +16,7 @@ namespace WCR.Web.Mapping
             this.CreateMap<User, UserDetailsViewModel>();
             this.CreateMap<Group, GroupCreationBindingModel>().ReverseMap();
             this.CreateMap<Team, TeamCreationBindingModel>().ReverseMap();
+            this.CreateMap<Match, MatchCreationBindingModel>().ReverseMap();
         }
     }
 }

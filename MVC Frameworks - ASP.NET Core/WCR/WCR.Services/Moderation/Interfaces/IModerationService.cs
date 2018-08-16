@@ -13,5 +13,9 @@ namespace WCR.Services.Moderation.Interfaces
         Task<TeamCreationBindingModel> PrepareTeamCreation();
 
         Task<string> CreateTeam(TeamCreationBindingModel model);
+
+        Task<MatchCreationBindingModel> PrepareMatchCreation();
+
+        Task<string> CreateMatch(MatchCreationBindingModel model);
     }
 }

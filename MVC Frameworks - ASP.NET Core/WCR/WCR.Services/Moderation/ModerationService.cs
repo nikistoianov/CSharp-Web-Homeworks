@@ -63,5 +63,40 @@ namespace WCR.Services.Moderation
             return null;
         }
 
+        public Task<MatchCreationBindingModel> PrepareMatchCreation()
+        {
+            var teams = DbContext.Teams.ToArray();
+            var teamList = new List<SelectListItem>();
+            foreach (var team in teams)
+            {
+                var item = new SelectListItem { Value = team.Id.ToString(), Text = team.Name };
+                teamList.Add(item);
+            }
+
+            var result = new MatchCreationBindingModel() { Teams = teamList, Date = DateTime.Now, RoundIndex = 1 };
+            return Task.FromResult(result);
+        }
+
+        public async Task<string> CreateMatch(MatchCreationBindingModel model)
+        {
+            var homeTeam = await DbContext.Teams.FindAsync(model.FirstTeamId);
+            if (homeTeam == null)
+            {
+                return "Home team not found.";
+            }
+
+            var guestTeam = await DbContext.Teams.FindAsync(model.SecondTeamId);
+            if (guestTeam == null)
+            {
+                return "Guest team not found.";
+            }
+
+            var match = Mapper.Map<Match>(model);
+
+            await DbContext.Matches.AddAsync(match);
+            await DbContext.SaveChangesAsync();
+
+            return null;
+        }
     }
 }

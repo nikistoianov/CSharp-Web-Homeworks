@@ -35,7 +35,7 @@ namespace BookLibrary.Web.Attributes
 
         public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
-            context.Result = new RedirectToActionResult("Login", "Users", null);
+            //context.Result = new RedirectToActionResult("Login", "Users", null);
         }
 
         public void OnPageHandlerSelected(PageHandlerSelectedContext context)

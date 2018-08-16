@@ -12,11 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Administration\Data\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\Moderation\Controllers\" />
-    <Folder Include="Areas\Moderation\Data\" />
-    <Folder Include="Areas\Moderation\Models\" />
-    <Folder Include="Areas\Moderation\Views\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Administration\Views\Users\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Moderation\Pages\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

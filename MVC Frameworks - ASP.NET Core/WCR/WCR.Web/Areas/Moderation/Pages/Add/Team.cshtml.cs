@@ -35,6 +35,11 @@ namespace WCR.Web.Areas.Moderation.Pages.Add
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return Page();
+            }
+
             var result = await this.moderationService.CreateTeam(Input);
             if (result == null)
             {

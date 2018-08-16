@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WCR.Models;
 
-namespace WCR.Web.Models.ViewModels
+namespace WCR.Web.Areas.Administration.Models.ViewModels
 {
     public class UserListViewModel
     {
@@ -21,7 +21,7 @@ namespace WCR.Web.Models.ViewModels
                 return user => new UserListViewModel()
                 {
                     Id = user.Id,
-                    Name = user.UserName
+                    Name = $"{user.UserName} ({user.Email})"
                 };
             }
         }
