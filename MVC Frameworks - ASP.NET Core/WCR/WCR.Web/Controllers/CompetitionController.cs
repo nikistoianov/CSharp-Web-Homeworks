@@ -35,17 +35,19 @@ namespace WCR.Web.Controllers
                 //Users = this.mapper.Map<List<UserDetailsViewModel>>(users)
             };
 
-
+            
             return View(model);
         }
 
         public ActionResult Rounds(int id)
         {
+            var currentUserId = userManager.GetUserId(this.User);
             var users = userManager.Users.ToList();
+            var mappedUsers = this.mapper.Map<List<UserDetailsViewModel>>(users);
             var model = new RoundViewModel()
             {
-                Users = this.mapper.Map<List<UserDetailsViewModel>>(users),
-                Matches = roundService.GetMatches(id)
+                Users = mappedUsers,
+                Matches = roundService.GetMatches(id, mappedUsers)
             };
 
 

@@ -1,8 +1,15 @@
 ﻿@model ScoreBetViewModel
-
 {{#each this.bets}}
 {{#if this.hidden}}
-<td class="column100 nomatch">скрит</td>
+@if (Model.Hidden)
+{
+    <td class="column100 nomatch">hidden</td>
+}
+else
+{
+
+}
+
 {{else}}
 {{#if this.current}}
 <td class="column100" data-column="column2"><a href="/{{this.href}}" id="1" class="btn resultbtn">{{this.result}}{{#if this.points}} ({{this.points}}){{/if}}</a></td>
