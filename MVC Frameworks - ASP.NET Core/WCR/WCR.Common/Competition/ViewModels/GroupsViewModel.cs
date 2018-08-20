@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WCR.Models;
+using System.Text;
 
-namespace WCR.Web.Models.ViewModels
+namespace WCR.Common.Competition.ViewModels
 {
     public class GroupsViewModel
     {

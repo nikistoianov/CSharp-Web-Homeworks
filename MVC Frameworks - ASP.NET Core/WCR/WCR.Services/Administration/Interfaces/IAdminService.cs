@@ -11,5 +11,9 @@ namespace WCR.Services.Administration.Interfaces
         IEnumerable<TeamViewModel> GetTeams();
 
         Task<string> DeleteTeamAsync(int id);
+
+        IEnumerable<MatchViewModel> GetMatches();
+
+        Task<string> DeleteMatchAsync(int id);
     }
 }

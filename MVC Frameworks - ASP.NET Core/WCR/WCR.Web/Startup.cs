@@ -21,6 +21,8 @@ using WCR.Services.Moderation;
 using WCR.Services.Moderation.Interfaces;
 using WCR.Services.Administration.Interfaces;
 using WCR.Services.Administration;
+using WCR.Services.Competition.Interfaces;
+using WCR.Services.Competition;
 
 namespace WCR.Web
 {
@@ -145,9 +147,8 @@ namespace WCR.Web
         {
             services.AddScoped<IModerationService, ModerationService>();
             services.AddScoped<IAdminService, AdminService>();
-            //services.AddScoped<IAdminCourseInstancesService, AdminCourseInstancesService>();
-
-            //services.AddScoped<ILecturerCourseInstancesService, LecturerCourseInstancesService>();
+            services.AddScoped<IRoundService, RoundService>();
+            services.AddScoped<IGroupService, GroupService>();
         }
 
         private void CreateRoles(IServiceProvider serviceProvider, string[] roles)
