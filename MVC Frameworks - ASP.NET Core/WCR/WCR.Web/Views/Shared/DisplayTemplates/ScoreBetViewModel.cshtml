@@ -1,20 +1,28 @@
 ﻿@model ScoreBetViewModel
-{{#each this.bets}}
-{{#if this.hidden}}
+
 @if (Model.Hidden)
 {
     <td class="column100 nomatch">hidden</td>
 }
 else
 {
-
+    if (Model.Current)
+    {
+        <td class="column100" data-column="column2">
+            @if (Model.Score == Constants.NO_SCORE)
+            {
+                <a asp-controller="BetsMatch" asp-action="Create" asp-route-id="@Model.MatchId" asp-route-returnUrl="@Context.Request.Path" class="btn resultbtn">@Model.Score</a>
+            }
+            else
+            {
+                <a asp-controller="BetsMatch" asp-action="Edit" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Path" class="btn resultbtn">@Model.Score</a>
+            }
+        
+        </td>
+    }
+    else
+    {
+        <td class="column100 @Model.ClassName" data-column="column2">@Model.Score</td>
+    }
 }
 
-{{else}}
-{{#if this.current}}
-<td class="column100" data-column="column2"><a href="/{{this.href}}" id="1" class="btn resultbtn">{{this.result}}{{#if this.points}} ({{this.points}}){{/if}}</a></td>
-{{else}}
-<td class="column100{{this.className}}" data-column="column2">{{this.result}}{{#if this.points}} ({{this.points}}){{/if}}</td>
-{{/if}}
-{{/if}}
-{{/each}}

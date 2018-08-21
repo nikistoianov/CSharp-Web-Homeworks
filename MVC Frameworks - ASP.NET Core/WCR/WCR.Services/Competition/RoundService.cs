@@ -5,7 +5,9 @@
     using System.Linq;
     using AutoMapper;
     using WCR.Common.Competition.ViewModels;
+    using WCR.Common.Constants;
     using WCR.Data;
+    using WCR.Models;
     using WCR.Services.Competition.Interfaces;
 
     public class RoundService : BaseEFService, IRoundService
@@ -13,7 +15,7 @@
         public RoundService(WCRDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         { }
 
-        public ICollection<MatchViewModel> GetMatches(int roundIndex, ICollection<UserDetailsViewModel> users)
+        public ICollection<MatchViewModel> GetMatches(int roundIndex)
         {
             var matches = this.DbContext.Matches
                 .Where(x => x.RoundIndex == roundIndex)
@@ -23,24 +25,29 @@
                     Date = x.Date,
                     FirstTeam = x.FirstTeam.Name,
                     SecondTeam = x.SecondTeam.Name,
-                    Score = x.FirstTeamGoals.ToString() + " : " + x.SecondTeamGoals ?? "no score",
+                    Score = x.FirstTeamGoals.ToString() + " : " + x.SecondTeamGoals ?? Constants.NO_SCORE,
                     ScoreBets = x.Bets.Select(b => new ScoreBetViewModel()
                     {
                         Id = b.Id,
                         Score = b.FirstTeamGoals.ToString() + " : " + b.SecondTeamGoals.ToString(),
                         User = b.User.ShortName,
-                        Hidden = x.Date < DateTime.Now,
-                        Points = 11 // todo
+                        Points = CalculatePoints(b, b.Match) 
                     }).ToArray()
                 })
+                .OrderBy(x => x.Date)
                 .ToArray();
 
-            ArrangeScoreBets(matches, users);
-            
             return matches;
         }
 
-        private void ArrangeScoreBets(MatchViewModel[] matches, ICollection<UserDetailsViewModel> users)
+        // todo: CalculatePoints
+        private int CalculatePoints(BetMatch bet, Match match)
+        {
+            return 1;
+            throw new NotImplementedException();
+        }
+
+        public void ArrangeScoreBets(ICollection<MatchViewModel> matches, ICollection<UserDetailsViewModel> users, string currentUserId, bool isAdmin)
         {
             foreach (var match in matches)
             {
@@ -50,14 +57,41 @@
                     var foundScoreBet = match.ScoreBets.FirstOrDefault(x => x.User == user.ShortName);
                     if (foundScoreBet == null)
                     {
-                        newScoreBets.Add(new ScoreBetViewModel() { User = user.ShortName, Hidden = match.Date < DateTime.Now});
+                        foundScoreBet = new ScoreBetViewModel() { User = user.ShortName, Score = Constants.NO_SCORE};
                     }
-                    else
+
+                    foundScoreBet.Hidden = match.Date > DateTime.Now;
+                    if ((currentUserId != null && currentUserId == user.Id) || isAdmin)
                     {
-                        newScoreBets.Add(foundScoreBet);
+                        foundScoreBet.Current = true;
+                        foundScoreBet.Hidden = false;
                     }
+                    
+                    foundScoreBet.MatchId = match.Id;
+                    foundScoreBet.ClassName = GetScoreClass(foundScoreBet.Points);
+                    if (foundScoreBet.Points > 0)
+                    {
+                        foundScoreBet.Score += $" ({foundScoreBet.Points})";
+                    }
+
+                    newScoreBets.Add(foundScoreBet);
                 }
                 match.ScoreBets = newScoreBets;
+            }
+        }
+
+        private string GetScoreClass(int points)
+        {
+            switch (points)
+            {
+                case 0:
+                    return Constants.CLASS_NO_SCORE;
+                case Constants.POINTS_MATCH_SMALL_SCORE:
+                    return Constants.CLASS_SMALL_SCORE;
+                case Constants.POINTS_MATCH_BIG_SCORE:
+                    return Constants.CLASS_BIG_SCORE;
+                default:
+                    return Constants.CLASS_NO_SCORE;
             }
         }
     }

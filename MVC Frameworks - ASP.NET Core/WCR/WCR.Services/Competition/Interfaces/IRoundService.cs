@@ -5,6 +5,8 @@ namespace WCR.Services.Competition.Interfaces
 {
     public interface IRoundService
     {
-        ICollection<MatchViewModel> GetMatches(int roundIndex, ICollection<UserDetailsViewModel> users);
+        ICollection<MatchViewModel> GetMatches(int roundIndex);
+
+        void ArrangeScoreBets(ICollection<MatchViewModel> matches, ICollection<UserDetailsViewModel> users, string currentUserId, bool isAdmin);
     }
 }

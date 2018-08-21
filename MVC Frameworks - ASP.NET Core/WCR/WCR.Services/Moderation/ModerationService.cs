@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WCR.Common.Competition.BindingModels;
 using WCR.Common.Moderation.BindingModels;
 using WCR.Data;
 using WCR.Models;
@@ -96,6 +97,37 @@ namespace WCR.Services.Moderation
             await DbContext.Matches.AddAsync(match);
             await DbContext.SaveChangesAsync();
 
+            return null;
+        }
+
+        public BetMatchBindingModel PrepareMatchScore(int matchId)
+        {
+            var model = this.DbContext.Matches
+                .Where(x => x.Id == matchId)
+                .Select(x => new BetMatchBindingModel()
+                {
+                    HomeTeam = x.FirstTeam.Name,
+                    GuestTeam = x.SecondTeam.Name,
+                    HomeTeamGoals = x.FirstTeamGoals ?? 0,
+                    GuestTeamGoals = x.SecondTeamGoals ?? 0
+                })
+                .SingleOrDefault();
+
+            return model;
+        }
+
+        public async Task<string> EditMatchScoreAsync(int matchId, int homeTeamGoals, int guestTeamGoals)
+        {
+            var match = await this.DbContext.Matches.FindAsync(matchId);
+            if (match == null)
+            {
+                return "Match not found.";
+            }
+
+            match.FirstTeamGoals = homeTeamGoals;
+            match.SecondTeamGoals = guestTeamGoals;
+
+            await this.DbContext.SaveChangesAsync();
             return null;
         }
     }

@@ -149,6 +149,7 @@ namespace WCR.Web
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IRoundService, RoundService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IBetService, BetService>();
         }
 
         private void CreateRoles(IServiceProvider serviceProvider, string[] roles)

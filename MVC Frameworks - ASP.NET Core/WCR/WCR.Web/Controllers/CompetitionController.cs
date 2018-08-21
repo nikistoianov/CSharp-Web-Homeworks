@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WCR.Common.Competition.ViewModels;
+using WCR.Common.Constants;
 using WCR.Data;
 using WCR.Models;
 using WCR.Services.Competition.Interfaces;
@@ -41,15 +42,22 @@ namespace WCR.Web.Controllers
 
         public ActionResult Rounds(int id)
         {
-            var currentUserId = userManager.GetUserId(this.User);
-            var users = userManager.Users.ToList();
+            var users = userManager.Users
+                .OrderBy(x => x.ShortName)
+                .ToList();
+
+            var matches = roundService.GetMatches(id);
             var mappedUsers = this.mapper.Map<List<UserDetailsViewModel>>(users);
+            var currentUserId = userManager.GetUserId(this.User);
+            var isAdmin = this.User.IsInRole(Constants.ROLE_ADMIN);
+
+            roundService.ArrangeScoreBets(matches, mappedUsers, currentUserId, isAdmin);
+
             var model = new RoundViewModel()
             {
                 Users = mappedUsers,
-                Matches = roundService.GetMatches(id, mappedUsers)
+                Matches = matches
             };
-
 
             return View(model);
         }

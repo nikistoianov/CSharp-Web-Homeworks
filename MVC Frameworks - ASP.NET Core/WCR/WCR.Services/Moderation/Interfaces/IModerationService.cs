@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WCR.Common.Competition.BindingModels;
 using WCR.Common.Moderation.BindingModels;
 
 namespace WCR.Services.Moderation.Interfaces
@@ -17,5 +18,9 @@ namespace WCR.Services.Moderation.Interfaces
         Task<MatchCreationBindingModel> PrepareMatchCreation();
 
         Task<string> CreateMatch(MatchCreationBindingModel model);
+
+        BetMatchBindingModel PrepareMatchScore(int matchId);
+
+        Task<string> EditMatchScoreAsync(int matchId, int homeTeamGoals, int guestTeamGoals);
     }
 }
