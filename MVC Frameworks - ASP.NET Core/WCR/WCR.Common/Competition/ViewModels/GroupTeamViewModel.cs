@@ -13,6 +13,6 @@ namespace WCR.Common.Competition.ViewModels
 
         public string Position { get; set; }
 
-        public ICollection<TeamBetViewModel> Bets { get; set; }
+        public IList<TeamBetViewModel> Bets { get; set; }
     }
 }

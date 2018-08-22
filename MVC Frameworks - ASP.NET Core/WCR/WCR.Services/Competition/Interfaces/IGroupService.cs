@@ -8,5 +8,7 @@
         IList<GroupViewModel> GetGroups();
 
         void ArrangeTeamBets(ICollection<GroupViewModel> groups, ICollection<UserDetailsViewModel> users, string currentUserId, bool isAdmin);
+
+        ICollection<MidResultViewModel> GetRoundResults(IList<GroupViewModel> groups, int usersCount);
     }
 }

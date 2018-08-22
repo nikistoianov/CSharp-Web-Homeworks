@@ -53,6 +53,9 @@
     <Content Update="Views\Competition\Rounds.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Groups\EditPosition.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Matches\EditScore.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

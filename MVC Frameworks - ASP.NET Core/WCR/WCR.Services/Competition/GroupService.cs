@@ -103,6 +103,7 @@
                 }
             }
         }
+
         private string GetScoreClass(int points)
         {
             switch (points)
@@ -112,6 +113,28 @@
                 default:
                     return Constants.CLASS_BIG_SCORE;
             }
+        }
+
+        public ICollection<MidResultViewModel> GetRoundResults(IList<GroupViewModel> groups, int usersCount)
+        {
+            var result = new MidResultViewModel[usersCount];
+            for (int i = 0; i < usersCount; i++)
+            {
+                result[i] = new MidResultViewModel();
+            }
+
+            foreach (var group in groups)
+            {
+                foreach (var team in group.Teams)
+                {
+                    for (int i = 0; i < team.Bets.Count; i++)
+                    {
+                        result[i].Points += team.Bets[i].Points;
+                    }
+                }                
+            }
+
+            return result;
         }
     }
 }

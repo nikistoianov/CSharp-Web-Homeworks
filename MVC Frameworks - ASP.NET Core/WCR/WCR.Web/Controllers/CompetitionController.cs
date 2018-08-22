@@ -46,10 +46,17 @@ namespace WCR.Web.Controllers
 
             groupService.ArrangeTeamBets(groups, mappedUsers, currentUserId, isAdmin);
 
+            var roundPoints = groupService.GetRoundResults(groups, users.Count);
+            var bonusPoints = roundService.GetBonusResults(roundPoints);
+            var totalPoints = roundService.GetTotalResults(roundPoints, bonusPoints);
+
             var model = new GroupsViewModel()
             {
                 Users = mappedUsers,
-                Groups = groups
+                Groups = groups,
+                RoundPoints = roundPoints,
+                BonusPoints = bonusPoints,
+                TotalPoints = totalPoints
             };
 
             

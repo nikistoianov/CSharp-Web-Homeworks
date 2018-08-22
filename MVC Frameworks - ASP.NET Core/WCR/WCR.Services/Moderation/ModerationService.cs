@@ -130,5 +130,41 @@ namespace WCR.Services.Moderation
             await this.DbContext.SaveChangesAsync();
             return null;
         }
+
+        public BetGroupBindingModel PrepareGroupScore(int groupId)
+        {
+            var model = this.DbContext.Groups
+                .Where(x => x.Id == groupId)
+                .Select(x => new BetGroupBindingModel()
+                {
+                    Teams = x.Teams
+                        .Select(t => new BetTeamBindingModel()
+                        {
+                            Name = t.Name,
+                            TeamId = t.Id,
+                            Position = t.GroupPosition == null ? 0 : t.GroupPosition.Value
+                        })
+                        .ToArray()
+                })
+                .SingleOrDefault();
+
+            return model;
+        }
+
+        public async Task<string> EditGroupScoreAsync(int groupId, BetGroupBindingModel model)
+        {
+            foreach (var team in model.Teams)
+            {
+                var dbTeam = await this.DbContext.Teams.FindAsync(team.TeamId);
+                if (dbTeam == null)
+                {
+                    return "Team not foud.";
+                }
+                dbTeam.GroupPosition = team.Position;
+            }
+
+            await this.DbContext.SaveChangesAsync();
+            return null;
+        }
     }
 }

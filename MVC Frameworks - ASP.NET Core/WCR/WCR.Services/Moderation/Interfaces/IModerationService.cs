@@ -22,5 +22,9 @@ namespace WCR.Services.Moderation.Interfaces
         BetMatchBindingModel PrepareMatchScore(int matchId);
 
         Task<string> EditMatchScoreAsync(int matchId, int homeTeamGoals, int guestTeamGoals);
+
+        BetGroupBindingModel PrepareGroupScore(int groupId);
+
+        Task<string> EditGroupScoreAsync(int groupId, BetGroupBindingModel model);
     }
 }

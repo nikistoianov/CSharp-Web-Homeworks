@@ -54,12 +54,18 @@ namespace WCR.Web.Controllers
             {
                 var currentUserId = userManager.GetUserId(this.User);
                 var result = await betService.AddBetGroupAsync(currentUserId, model);
+                if (result != null)
+                {
+                    this.ModelState.AddModelError(string.Empty, result);
+                    return View(betService.PrepareBetGroup(id));
+                }
 
                 return Redirect(returnUrl);
             }
             catch
             {
-                return Redirect("/");
+                this.ModelState.AddModelError(string.Empty, "Error creating bet.");
+                return View(betService.PrepareBetGroup(id));
             }
         }
 

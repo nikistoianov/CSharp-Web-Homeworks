@@ -144,11 +144,24 @@ namespace WCR.Services.Competition
         }
 
         public async Task<string> EditBetGroupAsync(string userId, BetGroupBindingModel model)
-        {
+        {            
             foreach (var team in model.Teams)
             {
+                var bet = this.DbContext.BetsForPosition
+                    .Where(x => x.TeamId == team.TeamId && x.UserId == userId)
+                    .SingleOrDefault();
 
+                if (bet == null)
+                {
+                    return "Bet not found.";
+                }
+
+                bet.Position = team.Position;
             }
+
+            await this.DbContext.SaveChangesAsync();
+
+            return null;
         }
     }
 }
