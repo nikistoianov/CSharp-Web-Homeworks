@@ -8,6 +8,9 @@ namespace WCR.Common.Competition.ViewModels
         {
             this.Users = new List<UserDetailsViewModel>();
             this.Matches = new List<MatchViewModel>();
+            this.RoundPoints = new List<MidResultViewModel>();
+            this.BonusPoints = new List<MidResultViewModel>();
+            this.TotalPoints = new List<TotalResultViewModel>();
         }
 
         public string Title { get; set; }

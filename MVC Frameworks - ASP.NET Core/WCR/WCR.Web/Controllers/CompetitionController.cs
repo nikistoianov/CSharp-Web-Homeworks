@@ -11,7 +11,6 @@ using WCR.Common.Constants;
 using WCR.Data;
 using WCR.Models;
 using WCR.Services.Competition.Interfaces;
-using WCR.Web.Models.ViewModels;
 
 namespace WCR.Web.Controllers
 {
@@ -20,20 +19,37 @@ namespace WCR.Web.Controllers
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
         private readonly IRoundService roundService;
+        private readonly IGroupService groupService;
 
-        public CompetitionController(UserManager<User> userManager, IMapper mapper, IRoundService roundService)
+        public CompetitionController(
+            UserManager<User> userManager, 
+            IMapper mapper, 
+            IRoundService roundService, 
+            IGroupService groupService)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.roundService = roundService;
+            this.groupService = groupService;
         }
 
         public IActionResult Groups()
         {
-            var users = userManager.Users.ToList();
+            var users = userManager.Users
+                .OrderBy(x => x.ShortName)
+                .ToList();
+
+            var groups = groupService.GetGroups();
+            var mappedUsers = mapper.Map<List<UserDetailsViewModel>>(users);
+            var currentUserId = userManager.GetUserId(User);
+            var isAdmin = User.IsInRole(Constants.ROLE_ADMIN);
+
+            groupService.ArrangeTeamBets(groups, mappedUsers, currentUserId, isAdmin);
+
             var model = new GroupsViewModel()
             {
-                //Users = this.mapper.Map<List<UserDetailsViewModel>>(users)
+                Users = mappedUsers,
+                Groups = groups
             };
 
             
@@ -47,9 +63,9 @@ namespace WCR.Web.Controllers
                 .ToList();
 
             var matches = roundService.GetMatches(id);
-            var mappedUsers = this.mapper.Map<List<UserDetailsViewModel>>(users);
-            var currentUserId = userManager.GetUserId(this.User);
-            var isAdmin = this.User.IsInRole(Constants.ROLE_ADMIN);
+            var mappedUsers = mapper.Map<List<UserDetailsViewModel>>(users);
+            var currentUserId = userManager.GetUserId(User);
+            var isAdmin = User.IsInRole(Constants.ROLE_ADMIN);
 
             roundService.ArrangeScoreBets(matches, mappedUsers, currentUserId, isAdmin);
 

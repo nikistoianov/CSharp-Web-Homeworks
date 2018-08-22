@@ -84,5 +84,71 @@ namespace WCR.Services.Competition
             var bet = this.DbContext.BetsForMatch.Find(id);
             return bet;
         }
+
+        public BetGroupBindingModel PrepareBetGroup(int groupId)
+        {
+            var group = this.DbContext.Groups
+                .Where(x => x.Id == groupId)
+                .Select(x => new BetGroupBindingModel()
+                {
+                    Teams = x.Teams
+                        .Select(t => new BetTeamBindingModel()
+                        {
+                            Name = t.Name,
+                            TeamId = t.Id
+                        })
+                        .ToArray()
+                })
+                .SingleOrDefault();
+
+            return group;
+        }
+
+        public async Task<string> AddBetGroupAsync(string userId, BetGroupBindingModel model)
+        {
+            foreach (var team in model.Teams)
+            {
+                var bet = new BetPosition()
+                {
+                    Position = team.Position,
+                    UserId = userId,
+                    TeamId = team.TeamId
+                };
+
+                await this.DbContext.BetsForPosition.AddAsync(bet);
+            }
+
+            await this.DbContext.SaveChangesAsync();
+
+            return null;
+        }
+
+        public BetGroupBindingModel GetBetGroup(int groupId, string userId)
+        {            
+            var teams = this.DbContext.BetsForPosition
+                .Where(x => x.Team.GroupId == groupId && x.UserId == userId)
+                .Select(x => new BetTeamBindingModel()
+                {
+                    Position = x.Position,
+                    Name = x.Team.Name,
+                    TeamId = x.TeamId
+                })
+                .ToArray();
+
+            var group = new BetGroupBindingModel()
+            {
+                Teams = teams
+            };
+
+            return group;
+        }
+
+        public async Task<string> EditBetGroupAsync(string userId, BetGroupBindingModel model)
+        {
+            foreach (var team in model.Teams)
+            {
+
+            }
+        }
     }
 }

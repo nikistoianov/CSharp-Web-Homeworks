@@ -11,12 +11,12 @@ using WCR.Services.Competition.Interfaces;
 
 namespace WCR.Web.Controllers
 {
-    public class BetsMatchController : Controller
+    public class BetsGroupController : Controller
     {
         private readonly IBetService betService;
         private readonly UserManager<User> userManager;
 
-        public BetsMatchController(IBetService betService, UserManager<User> userManager)
+        public BetsGroupController(IBetService betService, UserManager<User> userManager)
         {
             this.betService = betService;
             this.userManager = userManager;
@@ -25,7 +25,7 @@ namespace WCR.Web.Controllers
         [HttpGet]
         public IActionResult Create(int id)
         {
-            var model = betService.PrepareBetMatch(id);
+            var model = betService.PrepareBetGroup(id);
             if (model == null)
             {
                 return NotFound();
@@ -35,18 +35,25 @@ namespace WCR.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BetMatchBindingModel model, int id, string returnUrl = "/")
+        public async Task<IActionResult> Create(BetGroupBindingModel model, int id, string returnUrl = "/")
         {
             if (!ModelState.IsValid)
             {
                 this.ModelState.AddModelError(string.Empty, "Validation error.");
-                return View(betService.PrepareBetMatch(id));
+                return View(betService.PrepareBetGroup(id));
             }
-            
+
+            var distTeams = model.Teams.Select(x => x.Position).Distinct().ToArray();
+            if (distTeams.Length != model.Teams.Count)
+            {
+                this.ModelState.AddModelError(string.Empty, "No dublicate positions are allowed.");
+                return View(betService.PrepareBetGroup(id));
+            }
+
             try
             {
                 var currentUserId = userManager.GetUserId(this.User);
-                var result = await betService.AddBetMatchAsync(id, currentUserId, model.HomeTeamGoals, model.GuestTeamGoals);
+                var result = await betService.AddBetGroupAsync(currentUserId, model);
 
                 return Redirect(returnUrl);
             }
@@ -59,7 +66,8 @@ namespace WCR.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = betService.GetBetMatch(id);
+            var currentUserId = userManager.GetUserId(this.User);
+            var model = betService.GetBetGroup(id, currentUserId);
             if (model == null)
             {
                 return NotFound();
@@ -69,25 +77,26 @@ namespace WCR.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BetMatchBindingModel model, int id, string returnUrl = "/")
+        public async Task<IActionResult> Edit(BetGroupBindingModel model, int id, string returnUrl = "/")
         {
             if (!ModelState.IsValid)
             {
                 this.ModelState.AddModelError(string.Empty, "Validation error.");
                 return View(betService.GetBetMatch(id));
             }
-            // todo: validate for begined match
+            // todo: validate for begined group
+
+            var distTeams = model.Teams.Select(x => x.Position).Distinct().ToArray();
+            if (distTeams.Length != model.Teams.Count)
+            {
+                this.ModelState.AddModelError(string.Empty, "No dublicate positions are allowed.");
+                return View(betService.PrepareBetGroup(id));
+            }
+
             try
             {
-                var bet = betService.GetDbBetMatch(id);
                 var currentUserId = userManager.GetUserId(this.User);
-                if (currentUserId != bet.UserId && !this.User.IsInRole(Constants.ROLE_ADMIN))
-                {
-                    this.ModelState.AddModelError(string.Empty, "You are not allowed to edit this bet.");
-                    return View(betService.GetBetMatch(id));
-                }
-
-                var result = await betService.EditBetMatchAsync(id, model.HomeTeamGoals, model.GuestTeamGoals);
+                var result = await betService.EditBetGroupAsync(currentUserId, model);
                 if (result != null)
                 {
                     this.ModelState.AddModelError(string.Empty, result);

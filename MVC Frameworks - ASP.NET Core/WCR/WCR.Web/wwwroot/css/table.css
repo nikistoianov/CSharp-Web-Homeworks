@@ -301,6 +301,11 @@ iframe {
 .delimiter {
     font-family: Fifa;
     font-size: 22px;
+    color: aliceblue;
+}
+
+.date {
+    color: aliceblue;
 }
 
 .navbar__title {

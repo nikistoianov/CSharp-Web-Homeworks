@@ -31,7 +31,7 @@
                         Id = b.Id,
                         Score = b.FirstTeamGoals.ToString() + " : " + b.SecondTeamGoals.ToString(),
                         User = b.User.ShortName,
-                        Points = CalculatePoints(b, b.Match) 
+                        Points = CalculatePoints(b, b.Match)
                     }).ToArray()
                 })
                 .OrderBy(x => x.Date)
@@ -72,18 +72,17 @@
                     var foundScoreBet = match.ScoreBets.FirstOrDefault(x => x.User == user.ShortName);
                     if (foundScoreBet == null)
                     {
-                        foundScoreBet = new ScoreBetViewModel() { User = user.ShortName, Score = Constants.NO_SCORE};
+                        foundScoreBet = new ScoreBetViewModel() { User = user.ShortName, Score = Constants.NO_SCORE };
                     }
 
-                    foundScoreBet.Hidden = match.Date > DateTime.Now;
-                    if ((currentUserId != null && currentUserId == user.Id) || isAdmin)
-                    {
-                        foundScoreBet.Current = true;
-                        foundScoreBet.Hidden = false;
-                    }
-                    
+                    var isCurrentUser = currentUserId != null && currentUserId == user.Id;
+                    var isStarted = match.Date < DateTime.Now;
+
+                    foundScoreBet.Hidden = !isAdmin && !isStarted && !isCurrentUser;
+                    foundScoreBet.Current = (isCurrentUser && !isStarted) || (isAdmin && foundScoreBet.Score != Constants.NO_SCORE);
                     foundScoreBet.MatchId = match.Id;
                     foundScoreBet.ClassName = GetScoreClass(foundScoreBet.Points);
+
                     if (foundScoreBet.Points > 0)
                     {
                         foundScoreBet.Score += $" ({foundScoreBet.Points})";

@@ -15,5 +15,13 @@ namespace WCR.Services.Competition.Interfaces
         Task<string> EditBetMatchAsync(int betId, int homeTeamGoals, int guestTeamGoals);
 
         BetMatch GetDbBetMatch(int id);
+
+        BetGroupBindingModel PrepareBetGroup(int groupId);
+
+        Task<string> AddBetGroupAsync(string userId, BetGroupBindingModel model);
+
+        BetGroupBindingModel GetBetGroup(int groupId, string userId);
+
+        Task<string> EditBetGroupAsync(string userId, BetGroupBindingModel model);
     }
 }
