@@ -9,6 +9,7 @@
 
         public const int POINTS_MATCH_BIG_SCORE = 3;
         public const int POINTS_MATCH_SMALL_SCORE = 1;
+        public const int POINTS_BONUS = 5;
 
         public const string ROLE_ADMIN = "Administrator";
         public const string ROLE_MOD = "Moderator";

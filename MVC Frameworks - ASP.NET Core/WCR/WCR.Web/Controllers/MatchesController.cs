@@ -11,7 +11,7 @@ using WCR.Services.Moderation.Interfaces;
 
 namespace WCR.Web.Controllers
 {
-    [Authorize(Roles = Constants.ROLE_ADMIN)]
+    [Authorize(Roles = Constants.ROLE_ADMIN + ", " + Constants.ROLE_MOD)]
     //[Authorize(Roles = Constants.ROLE_MOD)]
     public class MatchesController : Controller
     {

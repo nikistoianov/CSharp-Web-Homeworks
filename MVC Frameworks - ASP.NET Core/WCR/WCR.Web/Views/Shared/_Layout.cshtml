@@ -37,11 +37,11 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rounds<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a asp-controller="Competition" asp-action="Groups">Groups</a></li>
-                            <li><a asp-controller="Competition" asp-action="Rounds" asp-route-id="1">I Round</a></li>
-                            <li><a asp-controller="Competition" asp-action="Rounds" asp-route-id="2">II Round</a></li>
-                            <li><a asp-controller="Competition" asp-action="Rounds" asp-route-id="3">III Round</a></li>
-                            <li><a asp-controller="Competition" asp-action="Rounds" asp-route-id="4">Final Round</a></li>
+                            <li><a asp-area="" asp-controller="Competition" asp-action="Groups">Groups</a></li>
+                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="1">I Round</a></li>
+                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="2">II Round</a></li>
+                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="3">III Round</a></li>
+                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="4">Final Round</a></li>
                         </ul>
                     </li>
 
@@ -56,8 +56,6 @@
                                 <li><a asp-area="Administration" asp-controller="Users" asp-action="Index">Users</a></li>
                                 <li><a asp-area="Administration" asp-controller="Teams" asp-action="Index">Teams</a></li>
                                 <li><a asp-area="Administration" asp-controller="Matches" asp-action="Index">Matches</a></li>
-                                <li><a href="#">III Round</a></li>
-                                <li><a href="#">Final Round</a></li>
                             </ul>
                         </li>
                     }

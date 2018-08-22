@@ -28,7 +28,7 @@ namespace WCR.Web.Controllers
             this.roundService = roundService;
         }
 
-        public ActionResult Groups()
+        public IActionResult Groups()
         {
             var users = userManager.Users.ToList();
             var model = new GroupsViewModel()
@@ -40,7 +40,7 @@ namespace WCR.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Rounds(int id)
+        public IActionResult Rounds(int id)
         {
             var users = userManager.Users
                 .OrderBy(x => x.ShortName)
@@ -53,95 +53,33 @@ namespace WCR.Web.Controllers
 
             roundService.ArrangeScoreBets(matches, mappedUsers, currentUserId, isAdmin);
 
+            var roundPoints = roundService.GetRoundResults(matches, users.Count);
+            var bonusPoints = roundService.GetBonusResults(roundPoints);
+            var totalPoints = roundService.GetTotalResults(roundPoints, bonusPoints);
+
+            if (id > 1)
+            {
+                for (int i = 1; i < id; i++)
+                {
+                    var prevRoundPoints = roundService.GetRoundResults(i);
+                    var prevBonusPoints = roundService.GetBonusResults(prevRoundPoints);
+                    var prevTotalPoints = roundService.GetTotalResults(prevRoundPoints, prevBonusPoints);
+                    totalPoints = roundService.JoinTotalResults(prevTotalPoints, totalPoints);
+                }                
+            }
+
             var model = new RoundViewModel()
             {
+                Title = roundService.GetRoundTitle(id),
                 Users = mappedUsers,
-                Matches = matches
+                Matches = matches,
+                RoundPoints = roundPoints,
+                BonusPoints = bonusPoints,
+                TotalPoints = totalPoints
             };
 
             return View(model);
         }
 
-
-        // GET: Rounds
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Rounds/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Rounds/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Rounds/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Rounds/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Rounds/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Rounds/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Rounds/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

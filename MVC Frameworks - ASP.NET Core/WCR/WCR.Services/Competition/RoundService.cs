@@ -15,7 +15,7 @@
         public RoundService(WCRDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         { }
 
-        public ICollection<MatchViewModel> GetMatches(int roundIndex)
+        public IList<MatchViewModel> GetMatches(int roundIndex)
         {
             var matches = this.DbContext.Matches
                 .Where(x => x.RoundIndex == roundIndex)
@@ -40,11 +40,26 @@
             return matches;
         }
 
-        // todo: CalculatePoints
         private int CalculatePoints(BetMatch bet, Match match)
         {
-            return 1;
-            throw new NotImplementedException();
+            if (match.FirstTeamGoals == null || match.SecondTeamGoals == null)
+            {
+                return 0;
+            }
+            else if (match.FirstTeamGoals == bet.FirstTeamGoals && match.SecondTeamGoals == bet.SecondTeamGoals)
+            {
+                return Constants.POINTS_MATCH_BIG_SCORE;
+            }
+            else if ((match.FirstTeamGoals == match.SecondTeamGoals && bet.FirstTeamGoals == bet.SecondTeamGoals)
+                  || (match.FirstTeamGoals > match.SecondTeamGoals && bet.FirstTeamGoals > bet.SecondTeamGoals)
+                  || (match.FirstTeamGoals < match.SecondTeamGoals && bet.FirstTeamGoals < bet.SecondTeamGoals))
+            {
+                return Constants.POINTS_MATCH_SMALL_SCORE;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public void ArrangeScoreBets(ICollection<MatchViewModel> matches, ICollection<UserDetailsViewModel> users, string currentUserId, bool isAdmin)
@@ -93,6 +108,91 @@
                 default:
                     return Constants.CLASS_NO_SCORE;
             }
+        }
+
+        public string GetRoundTitle(int id)
+        {
+            switch (id)
+            {
+                case 1:
+                    return "Round I";
+                case 2:
+                    return "Round II";
+                case 3:
+                    return "Round III";
+                default:
+                    return "Final Round";
+            }
+        }
+
+        public ICollection<MidResultViewModel> GetRoundResults(int roundIndex)
+        {
+            var result = this.DbContext.Users
+                .OrderBy(x => x.ShortName)
+                .Select(x => new MidResultViewModel()
+                {
+                    Points = x.BetsForMatches
+                    .Where(b => b.Match.RoundIndex == roundIndex)
+                    .Sum(b => CalculatePoints(b, b.Match))
+                })
+                .ToArray();
+
+            return result;
+        }
+
+        public ICollection<MidResultViewModel> GetRoundResults(IList<MatchViewModel> matches, int usersCount)
+        {
+            var result = new MidResultViewModel[usersCount];
+            for (int i = 0; i < usersCount; i++)
+            {
+                result[i] = new MidResultViewModel();
+            }
+
+            foreach (var match in matches)
+            {
+                for (int i = 0; i < match.ScoreBets.Count; i++)
+                {
+                    result[i].Points += match.ScoreBets[i].Points;
+                }
+            }
+            return result;
+        }
+
+        public IList<MidResultViewModel> GetBonusResults(ICollection<MidResultViewModel> roundResults)
+        {
+            var max = roundResults.Max(x => x.Points);
+            var result = roundResults
+                .Select(x => new MidResultViewModel()
+                {
+                    Points = (x.Points == max) && max > 0 ? Constants.POINTS_BONUS : 0
+                })
+                .ToArray();
+
+            return result;
+        }
+
+        public IList<TotalResultViewModel> GetTotalResults(ICollection<MidResultViewModel> roundResults, IList<MidResultViewModel> bonusResults)
+        {
+            var result = roundResults
+                .Select((x, i) => new TotalResultViewModel()
+                {
+                    Points = x.Points + bonusResults[i].Points
+                })
+                .ToArray();
+
+            return result;
+        }
+
+        public IList<TotalResultViewModel> JoinTotalResults(IList<TotalResultViewModel> prevResults, IList<TotalResultViewModel> totalResults)
+        {
+            var result = prevResults
+                .Select((x, i) => new TotalResultViewModel()
+                {
+                    Points = x.Points + totalResults[i].Points
+                })
+                .ToArray();
+
+            return result;
         }
     }
 }

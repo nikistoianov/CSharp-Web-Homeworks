@@ -18,7 +18,7 @@
         public int RoundIndex { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Time)]
         [Display(Name = "Start date of the match")]
         public DateTime Date { get; set; }
 

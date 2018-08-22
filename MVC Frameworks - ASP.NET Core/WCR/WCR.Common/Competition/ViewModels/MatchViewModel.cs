@@ -18,6 +18,6 @@ namespace WCR.Common.Competition.ViewModels
 
         public string Score { get; set; }
 
-        public ICollection<ScoreBetViewModel> ScoreBets { get; set; }
+        public IList<ScoreBetViewModel> ScoreBets { get; set; }
     }
 }

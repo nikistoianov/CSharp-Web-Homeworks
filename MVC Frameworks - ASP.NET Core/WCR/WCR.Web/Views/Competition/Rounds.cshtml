@@ -1,6 +1,6 @@
 ﻿@model RoundViewModel
 @{
-    ViewData["Title"] = "Round";
+    ViewData["Title"] = @Model.Title;
 }
 
 <div class="container-table100 main-container">
@@ -10,54 +10,38 @@
         <div class="table100 ver6">
             <table data-vertable="ver2">
 
-                <caption class="btn-danger table__title">Groups</caption>
+                <caption class="btn-danger table__title">@Model.Title</caption>
 
                 <thead>
                     <tr class="row100 head">
                         <th class="column100 date" data-column="column1">Date</th>
                         <th class="column100 game" data-column="column1"></th>
                         <th class="column100" data-column="column1">final result</th>
-                        @foreach (var user in Model.Users)
-                        {
-                        <th class="column100" data-column="column2">
-                            <a asp-controller="User" asp-action="Details" asp-route-id="@user.Id">@user.ShortName</a>
-                        </th>
-                        }
+                        @Html.DisplayFor(model => model.Users)
                     </tr>
                 </thead>
 
                 <tbody>
                     @Html.DisplayFor(model => model.Matches)
-                    <!--<tr class="row200">-->
-                    <!--<td class="column100" colspan="7">Полуфинали</td>-->
-                    <!--</tr>-->
-
+                    
                     <tr class="row100 footer">
-                        <th class="column100 match" colspan="3">точки за кръга</th>
-                        {{#each total.round}}
-                        <th class="column100 match">{{this}}</th>
-                        {{/each}}
+                        <th class="column100 match" colspan="3">points for current round</th>
+                        @Html.DisplayFor(model => model.RoundPoints)
                     </tr>
 
                     <tr class="row100 footer">
-                        <th class="column100 match" colspan="3">бонус точки</th>
-                        {{#each total.bonus}}
-                        <th class="column100 match">{{this}}</th>
-                        {{/each}}
+                        <th class="column100 match" colspan="3">bonus points</th>
+                        @Html.DisplayFor(model => model.BonusPoints)
                     </tr>
 
                     <tr class="row100 footer-user">
-                        <th class="column100" colspan="3">участник</th>
-                        {{#each users}}
-                        <th class="column100">{{this.name}}</th>
-                        {{/each}}
+                        <th class="column100" colspan="3">user</th>
+                        @Html.DisplayFor(model => model.Users)
                     </tr>
 
                     <tr class="row100 footer">
-                        <th class="column100 totalmatch" colspan="3">общо натрупани точки</th>
-                        {{#each total.total}}
-                        <th class="column100 totalmatch">{{this}}</th>
-                        {{/each}}
+                        <th class="column100 totalmatch" colspan="3">total points</th>
+                        @Html.DisplayFor(model => model.TotalPoints)
                     </tr>
 
                 </tbody>

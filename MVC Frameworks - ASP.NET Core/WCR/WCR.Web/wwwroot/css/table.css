@@ -121,7 +121,7 @@ iframe {
     display: -ms-flexbox;
     display: flex;
     align-items: center;
-    /*justify-content: center;*/
+    justify-content: center;
     flex-wrap: wrap;
     flex-direction: row;
     /*padding: 33px 30px;*/
@@ -140,12 +140,12 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
-table100 {
+.table100 {
     width: 100%;
     background-color: #fff;
 }
 
-table100 th, td {
+.table100 th, td {
     font-weight: unset;
     padding-right: 10px;
     font-size: 16px;
@@ -207,7 +207,7 @@ table100 th, td {
     /*font-size: 20px;*/
 }
 
-table100 th {
+.table100 th {
     /*font-family: Montserrat-Medium;*/
     font-family: Fifa;
     font-size: 16px;
@@ -289,6 +289,7 @@ table100 th {
 .table__title {
     font-family: Fifa;
     font-size: 30px;
+    text-align: center;
 }
 
 .section__title {
@@ -309,4 +310,8 @@ table100 th {
 
 .navbar__font {
     font-family: Fifa;
+}
+
+.table__body {
+    background-color: rgba(255,255,255,0.7);
 }

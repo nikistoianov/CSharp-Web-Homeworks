@@ -90,13 +90,18 @@ namespace WCR.Web
                 };
             });
 
-            services.AddAuthentication()
+            var fbAppId = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppId").Value;
+            var fbAppSecret = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppSecret").Value;
+            if (fbAppId != null && fbAppSecret != null)
+            {
+                services.AddAuthentication()
                 .AddFacebook(options =>
                 {
-                    options.AppId = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppId").Value;
-                    options.AppSecret = this.Configuration.GetSection("ExternalAuthentication:Facebook:AppSecret").Value;
+                    options.AppId = fbAppId;
+                    options.AppSecret = fbAppSecret;
                 });
-
+            }
+            
             //services.Configure<FacebookOptions>(options => Configuration.GetSection("ExternalAuthentication:Facebook").Bind(options));
 
             services.AddAutoMapper();
