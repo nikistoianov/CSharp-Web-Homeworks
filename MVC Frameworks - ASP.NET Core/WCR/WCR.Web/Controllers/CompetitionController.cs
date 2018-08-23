@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Common.Competition.ViewModels;
-using WCR.Common.Constants;
-using WCR.Data;
-using WCR.Models;
-using WCR.Services.Competition.Interfaces;
-
-namespace WCR.Web.Controllers
+﻿namespace WCR.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Common.Competition.ViewModels;
+    using WCR.Common.Constants;
+    using WCR.Models;
+    using WCR.Services.Competition.Interfaces;
+
     public class CompetitionController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -22,9 +18,9 @@ namespace WCR.Web.Controllers
         private readonly IGroupService groupService;
 
         public CompetitionController(
-            UserManager<User> userManager, 
-            IMapper mapper, 
-            IRoundService roundService, 
+            UserManager<User> userManager,
+            IMapper mapper,
+            IRoundService roundService,
             IGroupService groupService)
         {
             this.userManager = userManager;
@@ -59,7 +55,7 @@ namespace WCR.Web.Controllers
                 TotalPoints = totalPoints
             };
 
-            
+
             return View(model);
         }
 
@@ -88,8 +84,12 @@ namespace WCR.Web.Controllers
                     var prevBonusPoints = roundService.GetBonusResults(prevRoundPoints);
                     var prevTotalPoints = roundService.GetTotalResults(prevRoundPoints, prevBonusPoints);
                     totalPoints = roundService.JoinTotalResults(prevTotalPoints, totalPoints);
-                }                
+                }
             }
+
+            var groupPoints = groupService.GetRoundResults();
+            var groupBonusPoints = roundService.GetBonusResults(groupPoints);
+            totalPoints = roundService.JoinTotalResults(roundService.GetTotalResults(groupPoints, groupBonusPoints), totalPoints);
 
             var model = new RoundViewModel()
             {

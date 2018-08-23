@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administration\Data\" />
     <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 

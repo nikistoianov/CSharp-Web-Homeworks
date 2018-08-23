@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WCR.Common.Administration.ViewModels;
-
-namespace WCR.Services.Administration.Interfaces
+﻿namespace WCR.Services.Administration.Interfaces
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using WCR.Common.Administration.ViewModels;
+
     public interface IAdminService
     {
         IEnumerable<TeamViewModel> GetTeams();

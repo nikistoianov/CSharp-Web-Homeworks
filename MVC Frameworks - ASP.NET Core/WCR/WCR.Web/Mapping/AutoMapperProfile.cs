@@ -1,19 +1,17 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WCR.Common.Competition.ViewModels;
-using WCR.Common.Moderation.BindingModels;
-using WCR.Models;
-
-namespace WCR.Web.Mapping
+﻿namespace WCR.Web.Mapping
 {
+    using AutoMapper;
+    using WCR.Common.Competition.ViewModels;
+    using WCR.Common.Home.ViewModels;
+    using WCR.Common.Moderation.BindingModels;
+    using WCR.Models;
+
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
             this.CreateMap<User, UserDetailsViewModel>();
+            this.CreateMap<User, UserHomeViewModel>();
             this.CreateMap<Group, GroupCreationBindingModel>().ReverseMap();
             this.CreateMap<Team, TeamCreationBindingModel>().ReverseMap();
             this.CreateMap<Match, MatchCreationBindingModel>().ReverseMap();

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WCR.Common.Competition.BindingModels
+﻿namespace WCR.Common.Competition.BindingModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class BetMatchBindingModel
     {
         public string HomeTeam { get; set; }

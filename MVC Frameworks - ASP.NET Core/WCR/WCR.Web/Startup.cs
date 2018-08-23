@@ -23,6 +23,8 @@ using WCR.Services.Administration.Interfaces;
 using WCR.Services.Administration;
 using WCR.Services.Competition.Interfaces;
 using WCR.Services.Competition;
+using WCR.Services.Statistics;
+using WCR.Services.Statistics.Interfaces;
 
 namespace WCR.Web
 {
@@ -155,6 +157,7 @@ namespace WCR.Web
             services.AddScoped<IRoundService, RoundService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IBetService, BetService>();
+            services.AddScoped<IStatisticsService, StatisticsService>();            
         }
 
         private void CreateRoles(IServiceProvider serviceProvider, string[] roles)

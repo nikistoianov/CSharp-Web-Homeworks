@@ -44,31 +44,6 @@
             return groups;
         }
 
-        private int CalculatePoints(int? groupPosition, int position)
-        {
-            if (groupPosition == null)
-            {
-                return 0;
-            }
-
-            if (groupPosition == position)
-            {
-                switch (position)
-                {
-                    case 1:
-                        return Constants.POINTS_GROUP_1;
-                    case 2:
-                        return Constants.POINTS_GROUP_2;
-                    case 3:
-                        return Constants.POINTS_GROUP_3;
-                    default:
-                        return Constants.POINTS_GROUP_4;
-                }
-            }
-
-            return 0;
-        }
-
         public void ArrangeTeamBets(ICollection<GroupViewModel> groups, ICollection<UserDetailsViewModel> users, string currentUserId, bool isAdmin)
         {
             foreach (var group in groups)
@@ -104,17 +79,6 @@
             }
         }
 
-        private string GetScoreClass(int points)
-        {
-            switch (points)
-            {
-                case 0:
-                    return Constants.CLASS_NO_SCORE;
-                default:
-                    return Constants.CLASS_BIG_SCORE;
-            }
-        }
-
         public ICollection<MidResultViewModel> GetRoundResults(IList<GroupViewModel> groups, int usersCount)
         {
             var result = new MidResultViewModel[usersCount];
@@ -135,6 +99,56 @@
             }
 
             return result;
+        }
+
+        public ICollection<MidResultViewModel> GetRoundResults()
+        {
+            var result = this.DbContext.Users
+                .OrderBy(x => x.ShortName)
+                .Select(x => new MidResultViewModel()
+                {
+                    Points = x.BetsForPosition
+                        .Sum(b => CalculatePoints(b.Team.GroupPosition, b.Position))
+                })
+                .ToArray();
+
+            return result;
+        }
+
+        private string GetScoreClass(int points)
+        {
+            switch (points)
+            {
+                case 0:
+                    return Constants.CLASS_NO_SCORE;
+                default:
+                    return Constants.CLASS_BIG_SCORE;
+            }
+        }
+
+        private int CalculatePoints(int? groupPosition, int position)
+        {
+            if (groupPosition == null)
+            {
+                return 0;
+            }
+
+            if (groupPosition == position)
+            {
+                switch (position)
+                {
+                    case 1:
+                        return Constants.POINTS_GROUP_1;
+                    case 2:
+                        return Constants.POINTS_GROUP_2;
+                    case 3:
+                        return Constants.POINTS_GROUP_3;
+                    default:
+                        return Constants.POINTS_GROUP_4;
+                }
+            }
+
+            return 0;
         }
     }
 }

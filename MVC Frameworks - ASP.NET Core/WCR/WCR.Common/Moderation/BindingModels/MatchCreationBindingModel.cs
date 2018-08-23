@@ -15,10 +15,11 @@
 
         [Required]
         [Range(1, 4)]
+        [Display(Name = "Round Index")]
         public int RoundIndex { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [Display(Name = "Start date of the match")]
         public DateTime Date { get; set; }
 

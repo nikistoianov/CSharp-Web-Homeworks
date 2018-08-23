@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Services.Administration.Interfaces;
-
-namespace WCR.Web.Areas.Administration.Controllers
+﻿namespace WCR.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Services.Administration.Interfaces;
+
     public class MatchesController : AdminController
     {
         private readonly IAdminService adminService;

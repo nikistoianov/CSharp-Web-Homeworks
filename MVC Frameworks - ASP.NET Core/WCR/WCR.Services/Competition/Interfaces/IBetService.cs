@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using WCR.Common.Competition.BindingModels;
-using WCR.Models;
-
-namespace WCR.Services.Competition.Interfaces
+﻿namespace WCR.Services.Competition.Interfaces
 {
+    using System.Threading.Tasks;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Models;
+
     public interface IBetService
     {
         BetMatchBindingModel PrepareBetMatch(int matchId);

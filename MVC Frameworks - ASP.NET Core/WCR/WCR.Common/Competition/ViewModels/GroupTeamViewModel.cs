@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace WCR.Common.Competition.ViewModels
+﻿namespace WCR.Common.Competition.ViewModels
 {
+    using System.Collections.Generic;
+
     public class GroupTeamViewModel
     {
         public GroupTeamViewModel()

@@ -37,18 +37,14 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Rounds<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Competition" asp-action="Groups">Groups</a></li>
-                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="1">I Round</a></li>
-                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="2">II Round</a></li>
-                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="3">III Round</a></li>
-                            <li><a asp-area="" asp-controller="Competition" asp-action="Rounds" asp-route-id="4">Final Round</a></li>
+                            <partial name="_RoundsPartial" />
                         </ul>
                     </li>
 
                     <li><a asp-area="" asp-controller="Home" asp-action="Statistics">Statistics</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Rules">Rules</a></li>
 
-                    @if (User.IsInRole("Administrator"))
+                    @if (User.IsInRole(Constants.ROLE_ADMIN))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration<b class="caret"></b></a>
@@ -60,7 +56,7 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                    @if (User.IsInRole(Constants.ROLE_ADMIN) || User.IsInRole(Constants.ROLE_MOD))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Moderation<b class="caret"></b></a>

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using WCR.Common.Administration.ViewModels;
-using WCR.Data;
-using WCR.Services.Administration.Interfaces;
-
-namespace WCR.Services.Administration
+﻿namespace WCR.Services.Administration
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using WCR.Common.Administration.ViewModels;
+    using WCR.Data;
+    using WCR.Services.Administration.Interfaces;
+
     public class AdminService : BaseEFService, IAdminService
     {
         public AdminService(WCRDbContext dbContext, IMapper mapper) : base(dbContext, mapper)

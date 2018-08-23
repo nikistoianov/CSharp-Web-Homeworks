@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using WCR.Common.Competition.BindingModels;
-using WCR.Data;
-using WCR.Models;
-using WCR.Services.Competition.Interfaces;
-
-namespace WCR.Services.Competition
+﻿namespace WCR.Services.Competition
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Data;
+    using WCR.Models;
+    using WCR.Services.Competition.Interfaces;
+
     public class BetService : BaseEFService, IBetService
     {
         public BetService(WCRDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
@@ -124,7 +119,7 @@ namespace WCR.Services.Competition
         }
 
         public BetGroupBindingModel GetBetGroup(int groupId, string userId)
-        {            
+        {
             var teams = this.DbContext.BetsForPosition
                 .Where(x => x.Team.GroupId == groupId && x.UserId == userId)
                 .Select(x => new BetTeamBindingModel()
@@ -144,7 +139,7 @@ namespace WCR.Services.Competition
         }
 
         public async Task<string> EditBetGroupAsync(string userId, BetGroupBindingModel model)
-        {            
+        {
             foreach (var team in model.Teams)
             {
                 var bet = this.DbContext.BetsForPosition

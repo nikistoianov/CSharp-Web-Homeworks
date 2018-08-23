@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WCR.Common.Competition.ViewModels
+﻿namespace WCR.Common.Competition.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+
     public class MatchViewModel
     {
         public int Id { get; set; }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using WCR.Models;
-
-namespace WCR.Data
+﻿namespace WCR.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using WCR.Models;
+
     public class WCRDbContext : IdentityDbContext<User>
     {
         public DbSet<Team> Teams { get; set; }
@@ -22,7 +19,7 @@ namespace WCR.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BetPosition>()
-                .HasKey(x => new { x.UserId, x.TeamId});
+                .HasKey(x => new { x.UserId, x.TeamId });
 
             builder.Entity<Match>(ent =>
             {
@@ -39,7 +36,7 @@ namespace WCR.Data
 
             builder.Entity<User>()
                 .HasIndex(x => x.ShortName)
-                .IsUnique();                
+                .IsUnique();
 
             base.OnModelCreating(builder);
         }

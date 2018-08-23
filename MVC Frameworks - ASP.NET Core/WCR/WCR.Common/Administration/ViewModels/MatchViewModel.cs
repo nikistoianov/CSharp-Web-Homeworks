@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace WCR.Common.Administration.ViewModels
+﻿namespace WCR.Common.Administration.ViewModels
 {
+    using System;
+
     public class MatchViewModel
     {
         public int Id { get; set; }

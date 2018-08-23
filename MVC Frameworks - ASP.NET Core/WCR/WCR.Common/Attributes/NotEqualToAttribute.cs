@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace WCR.Common.Attributes
+﻿namespace WCR.Common.Attributes
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class NotEqualToAttribute : ValidationAttribute
     {
         private readonly string otherPropertyName;

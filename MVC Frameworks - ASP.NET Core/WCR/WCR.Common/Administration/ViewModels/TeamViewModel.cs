@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WCR.Common.Administration.ViewModels
+﻿namespace WCR.Common.Administration.ViewModels
 {
     public class TeamViewModel
     {

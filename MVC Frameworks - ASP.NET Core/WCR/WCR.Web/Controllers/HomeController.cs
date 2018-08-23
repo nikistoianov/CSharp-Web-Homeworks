@@ -1,46 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Services.Moderation.Interfaces;
-using WCR.Web.Models;
-
-namespace WCR.Web.Controllers
+﻿namespace WCR.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Common.Home.ViewModels;
+    using WCR.Models;
+    using WCR.Web.Models;
+
     public class HomeController : Controller
     {
-        //private readonly RoleManager<IdentityRole> roleManager;
-        //public HomeController(RoleManager<IdentityRole> roleManager, ITest moderationService)
-        //{
-        //    //this.roleManager = roleManager;
-        //}
+        private readonly UserManager<User> userManager;
+        private readonly IMapper mapper;
+
+        public HomeController(UserManager<User> userManager, IMapper mapper)
+        {
+            this.userManager = userManager;
+            this.mapper = mapper;
+        }
 
         public IActionResult Index()
         {
-            return View();
+            var users = userManager.Users
+                .OrderBy(x => x.ShortName)
+                .ToList();
+
+            var mappedUsers = mapper.Map<List<UserHomeViewModel>>(users);
+            return View(mappedUsers);
         }
 
         public IActionResult Rules()
-        {
-            //Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
-            //hasAdminRole.Wait();
-
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

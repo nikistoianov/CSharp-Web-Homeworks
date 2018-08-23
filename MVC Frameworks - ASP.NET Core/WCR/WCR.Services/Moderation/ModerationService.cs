@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using WCR.Common.Competition.BindingModels;
-using WCR.Common.Moderation.BindingModels;
-using WCR.Data;
-using WCR.Models;
-using WCR.Services.Moderation.Interfaces;
-
-namespace WCR.Services.Moderation
+﻿namespace WCR.Services.Moderation
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Common.Moderation.BindingModels;
+    using WCR.Data;
+    using WCR.Models;
+    using WCR.Services.Moderation.Interfaces;
+
     public class ModerationService : BaseEFService, IModerationService
     {
         public ModerationService(WCRDbContext dbContext, IMapper mapper) : base(dbContext, mapper)

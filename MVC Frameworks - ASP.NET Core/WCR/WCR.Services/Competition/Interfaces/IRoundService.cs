@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using WCR.Common.Competition.ViewModels;
-
-namespace WCR.Services.Competition.Interfaces
+﻿namespace WCR.Services.Competition.Interfaces
 {
+    using System.Collections.Generic;
+    using WCR.Common.Competition.ViewModels;
+
     public interface IRoundService
     {
         IList<MatchViewModel> GetMatches(int roundIndex);

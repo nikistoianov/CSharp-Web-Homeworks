@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using System;
-using WCR.Data;
-
-namespace WCR.Services
+﻿namespace WCR.Services
 {
+    using AutoMapper;
+    using WCR.Data;
+
     public abstract class BaseEFService
     {
         protected BaseEFService(
