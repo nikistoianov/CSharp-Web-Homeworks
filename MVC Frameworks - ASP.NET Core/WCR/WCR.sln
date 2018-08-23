@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Services", "WCR.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WCR.Common", "WCR.Common\WCR.Common.csproj", "{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCR.Tests", "WCR.Tests\WCR.Tests.csproj", "{53D313FB-5199-4CEE-975C-E0047C55E545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1D46D7-FFDC-4D43-BF58-A480FED9455B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D313FB-5199-4CEE-975C-E0047C55E545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D313FB-5199-4CEE-975C-E0047C55E545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D313FB-5199-4CEE-975C-E0047C55E545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D313FB-5199-4CEE-975C-E0047C55E545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

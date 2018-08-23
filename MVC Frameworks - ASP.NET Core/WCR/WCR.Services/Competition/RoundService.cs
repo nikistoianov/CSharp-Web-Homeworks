@@ -35,7 +35,7 @@
                     }).ToArray()
                 })
                 .OrderBy(x => x.Date)
-                .ToArray();
+                .ToList();
 
             return matches;
         }
@@ -192,6 +192,15 @@
                 .ToArray();
 
             return result;
+        }
+
+        public void AddCurrentTimeDelimiter(ref IList<MatchViewModel> matches)
+        {
+            if (matches.Count > 0 && matches.Last().Date > DateTime.Now)
+            {
+                matches.Insert(0, new MatchViewModel() { Date = DateTime.Now, DelimiterText = "upcomming matches" });
+                matches = matches.OrderBy(x => x.Date).ToList();
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
         @Html.DisplayFor(model => model.Date)
     </td>
     <td>
-        <a asp-controller="Teams" asp-action="Details" asp-route-id="@Model.HomeTeamId">
+        <a asp-area="" asp-controller="Statistics" asp-action="Team" asp-route-id="@Model.HomeTeamId">
             @Model.HomeTeam
         </a>
     </td>

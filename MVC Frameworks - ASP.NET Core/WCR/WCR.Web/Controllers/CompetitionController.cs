@@ -91,6 +91,8 @@
             var groupBonusPoints = roundService.GetBonusResults(groupPoints);
             totalPoints = roundService.JoinTotalResults(roundService.GetTotalResults(groupPoints, groupBonusPoints), totalPoints);
 
+            roundService.AddCurrentTimeDelimiter(ref matches);
+
             var model = new RoundViewModel()
             {
                 Title = roundService.GetRoundTitle(id),

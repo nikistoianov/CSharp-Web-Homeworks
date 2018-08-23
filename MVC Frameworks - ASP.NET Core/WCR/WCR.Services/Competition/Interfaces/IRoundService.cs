@@ -20,5 +20,7 @@
         IList<TotalResultViewModel> GetTotalResults(ICollection<MidResultViewModel> roundResults, IList<MidResultViewModel> bonusResults);
 
         IList<TotalResultViewModel> JoinTotalResults(IList<TotalResultViewModel> prevResults, IList<TotalResultViewModel> totalResults);
+
+        void AddCurrentTimeDelimiter(ref IList<MatchViewModel> matches);
     }
 }
