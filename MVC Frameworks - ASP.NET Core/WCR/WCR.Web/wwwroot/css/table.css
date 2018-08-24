@@ -58,6 +58,10 @@ a:hover {
     text-decoration: none;
 }
 
+.color-table-user {
+    color: aqua;
+}
+
 /* ------------------------------------ */
 h1,h2,h3,h4,h5,h6 {margin: 0px;}
 
@@ -145,12 +149,22 @@ iframe {
     background-color: #fff;
 }
 
-.table100 th, td {
-    font-weight: unset;
+/*.table100 td {
     padding-right: 10px;
     font-size: 16px;
     color: #fff;
     line-height: 1.4;
+}*/
+
+.table100 th {
+    font-weight: unset;
+    /*font-family: Montserrat-Medium;*/
+    /*font-family: Fifa;*/
+    /*font-size: 16px;*/
+    color: #fff;
+    line-height: 1.4;
+    text-transform: uppercase;
+    background-color: rgba(255,255,255,0.32);
 }
 
 .column100 {
@@ -205,16 +219,6 @@ iframe {
     text-align: center;
     background-color: rgba(255,255,255,0.2);
     /*font-size: 20px;*/
-}
-
-.table100 th {
-    /*font-family: Montserrat-Medium;*/
-    font-family: Fifa;
-    font-size: 16px;
-    color: #fff;
-    line-height: 1.4;
-    text-transform: uppercase;
-    background-color: rgba(255,255,255,0.32);
 }
 
 /*==================================================================
@@ -304,7 +308,7 @@ iframe {
     color: aliceblue;
 }
 
-.date {
+.date, .game {
     color: aliceblue;
 }
 

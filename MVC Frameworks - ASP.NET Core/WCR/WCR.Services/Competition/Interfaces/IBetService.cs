@@ -23,5 +23,7 @@
         BetGroupBindingModel GetBetGroup(int groupId, string userId);
 
         Task<string> EditBetGroupAsync(string userId, BetGroupBindingModel model);
+
+        Task<bool> IsBeggined(bool isGroup, int id);
     }
 }

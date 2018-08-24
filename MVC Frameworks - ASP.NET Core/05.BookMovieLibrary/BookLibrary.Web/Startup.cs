@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using BookLibrary.Data;
 using BookLibrary.Web.Attributes;
+using BookLibrary.Web.Extensions;
 using BookLibrary.Web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,6 +73,8 @@ namespace BookLibrary.Web
             app.UseCookiePolicy();
 
             app.UseSession();
+
+            app.ConfigureExceptionHandler();
 
             app.UseMvcWithDefaultRoute();
         }

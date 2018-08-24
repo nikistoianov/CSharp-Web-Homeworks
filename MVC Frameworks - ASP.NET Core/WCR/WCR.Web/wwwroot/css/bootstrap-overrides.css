@@ -99,6 +99,10 @@
 }
 
 .carousel-caption {
-    top: 3%;
+    top: 2%;
     bottom: 0px;
+}
+
+.modal-footer {
+    border-top: 1px solid #8094da;
 }

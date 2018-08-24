@@ -4,7 +4,7 @@
     using System;
     using WCR.Data;
 
-    public static  class MockDbContext
+    public static class MockDbContext
     {
         public static  WCRDbContext GetDbContext()
         {

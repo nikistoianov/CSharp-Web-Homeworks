@@ -1,5 +1,6 @@
 ﻿namespace WCR.Services.Competition
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -157,6 +158,20 @@
             await this.DbContext.SaveChangesAsync();
 
             return null;
+        }
+
+        public async Task<bool> IsBeggined(bool isGroup, int id)
+        {
+            if (isGroup)
+            {
+                var group = await this.DbContext.Groups.FindAsync(id);
+                return group.Date <= DateTime.Now;
+            }
+            else
+            {
+                var match = await this.DbContext.Matches.FindAsync(id);
+                return match.Date <= DateTime.Now;
+            }
         }
     }
 }

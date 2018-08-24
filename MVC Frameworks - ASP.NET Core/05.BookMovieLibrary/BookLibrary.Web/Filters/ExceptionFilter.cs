@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace BookLibrary.Web.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            throw new NotImplementedException();
+            //context.Result = new RedirectToPageResult("/");
+            //throw new NotImplementedException();
         }
     }
 }

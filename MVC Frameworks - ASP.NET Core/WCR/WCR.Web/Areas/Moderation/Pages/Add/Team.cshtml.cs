@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using WCR.Common.Moderation.BindingModels;
-using WCR.Services.Moderation.Interfaces;
-
 namespace WCR.Web.Areas.Moderation.Pages.Add
 {
-    [Authorize(Roles = "Administrator, Moderator")]
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using WCR.Common.Constants;
+    using WCR.Common.Moderation.BindingModels;
+    using WCR.Services.Moderation.Interfaces;
+
+    [Authorize(Roles = Constants.ROLE_ADMIN + ", " + Constants.ROLE_MOD)]
     public class TeamModel : PageModel
     {
         private readonly IModerationService moderationService;

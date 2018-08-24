@@ -22,6 +22,7 @@
                     Name = x.Name,
                     GroupName = x.Group.Name
                 })
+                .OrderBy(x => x.GroupName)
                 .ToList();
             return teams;
         }
@@ -53,6 +54,7 @@
                     Score = x.FirstTeamGoals.ToString() + ":" + x.SecondTeamGoals.ToString() ?? "no score",
                     Date = x.Date
                 })
+                .OrderBy(x => x.Date)
                 .ToList();
             return matches;
         }

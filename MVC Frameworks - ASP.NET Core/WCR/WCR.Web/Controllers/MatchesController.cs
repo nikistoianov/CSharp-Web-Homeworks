@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Common.Competition.BindingModels;
-using WCR.Common.Constants;
-using WCR.Services.Moderation.Interfaces;
-
-namespace WCR.Web.Controllers
+﻿namespace WCR.Web.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Common.Constants;
+    using WCR.Services.Moderation.Interfaces;
+
     [Authorize(Roles = Constants.ROLE_ADMIN + ", " + Constants.ROLE_MOD)]
     public class MatchesController : Controller
     {

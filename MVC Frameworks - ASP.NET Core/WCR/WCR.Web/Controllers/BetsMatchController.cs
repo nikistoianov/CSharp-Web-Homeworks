@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Common.Competition.BindingModels;
-using WCR.Common.Constants;
-using WCR.Models;
-using WCR.Services.Competition.Interfaces;
-
-namespace WCR.Web.Controllers
+﻿namespace WCR.Web.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Common.Constants;
+    using WCR.Models;
+    using WCR.Services.Competition.Interfaces;
+
     public class BetsMatchController : Controller
     {
         private readonly IBetService betService;
@@ -42,7 +39,13 @@ namespace WCR.Web.Controllers
                 this.ModelState.AddModelError(string.Empty, "Validation error.");
                 return View(betService.PrepareBetMatch(id));
             }
-            
+
+            if (await betService.IsBeggined(false, id))
+            {
+                this.ModelState.AddModelError(string.Empty, "Time is out for prognosis.");
+                return View(betService.PrepareBetMatch(id));
+            }
+
             try
             {
                 var currentUserId = userManager.GetUserId(this.User);
@@ -76,7 +79,13 @@ namespace WCR.Web.Controllers
                 this.ModelState.AddModelError(string.Empty, "Validation error.");
                 return View(betService.GetBetMatch(id));
             }
-            // todo: validate for begined match
+
+            if (!this.User.IsInRole(Constants.ROLE_ADMIN) && await betService.IsBeggined(false, id))
+            {
+                this.ModelState.AddModelError(string.Empty, "Time is out for prognosis.");
+                return View(betService.PrepareBetMatch(id));
+            }
+
             try
             {
                 var bet = betService.GetDbBetMatch(id);

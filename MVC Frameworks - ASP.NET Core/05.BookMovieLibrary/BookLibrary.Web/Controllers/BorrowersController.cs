@@ -23,6 +23,14 @@ namespace BookLibrary.Web.Controllers
         [Authorization]
         public IActionResult Add()
         {
+                throw new Exception("test");
+            try
+            {
+            }
+            catch
+            {
+            }
+            
             return View();
         }
 

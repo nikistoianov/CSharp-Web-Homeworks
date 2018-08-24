@@ -1,33 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WCR.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using WCR.Models;
-using System.IO;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using WCR.Web.Common;
-using AutoMapper;
-using WCR.Services.Moderation;
-using WCR.Services.Moderation.Interfaces;
-using WCR.Services.Administration.Interfaces;
-using WCR.Services.Administration;
-using WCR.Services.Competition.Interfaces;
-using WCR.Services.Competition;
-using WCR.Services.Statistics;
-using WCR.Services.Statistics.Interfaces;
-
-namespace WCR.Web
+﻿namespace WCR.Web
 {
+    using System;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using WCR.Data;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using WCR.Models;
+    using System.IO;
+    using WCR.Web.Common;
+    using AutoMapper;
+    using WCR.Services.Moderation;
+    using WCR.Services.Moderation.Interfaces;
+    using WCR.Services.Administration.Interfaces;
+    using WCR.Services.Administration;
+    using WCR.Services.Competition.Interfaces;
+    using WCR.Services.Competition;
+    using WCR.Services.Statistics;
+    using WCR.Services.Statistics.Interfaces;
+    using WCR.Web.Extensions;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -40,14 +36,7 @@ namespace WCR.Web
                 .AddJsonFile($@"{appLocalFolder}\customSettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
-            if (env.IsDevelopment())
-            {
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                //builder.AddApplicationInsightsSettings(developerMode: true);
-            }
             Configuration = builder.Build();
-
-            //Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -74,7 +63,7 @@ namespace WCR.Web
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<WCRDbContext>();
-            
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.User = new UserOptions()
@@ -103,14 +92,15 @@ namespace WCR.Web
                     options.AppSecret = fbAppSecret;
                 });
             }
-            
+
             //services.Configure<FacebookOptions>(options => Configuration.GetSection("ExternalAuthentication:Facebook").Bind(options));
 
             services.AddAutoMapper();
 
             RegisterServiceLayer(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -135,6 +125,8 @@ namespace WCR.Web
 
             app.SeedRoles(this.Configuration, roleManager);
 
+            app.ConfigureExceptionHandler();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -145,9 +137,6 @@ namespace WCR.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //var roles = new string[] { "Administrator", "Moderator"};
-            var roles = this.Configuration.GetSection("Roles").AsEnumerable().Select(x => x.Value).Skip(1).ToArray();
-            //CreateRoles(serviceProvider, roles);
         }
 
         private static void RegisterServiceLayer(IServiceCollection services)
@@ -157,63 +146,7 @@ namespace WCR.Web
             services.AddScoped<IRoundService, RoundService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IBetService, BetService>();
-            services.AddScoped<IStatisticsService, StatisticsService>();            
-        }
-
-        private void CreateRoles(IServiceProvider serviceProvider, string[] roles)
-        {
-
-            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string userName = "niki";
-
-            //Check that there is an Administrator role and create if not
-            foreach (var role in roles)
-            {
-                CreateRole(roleManager, role);
-            }            
-
-            //Check if the admin user exists and create it if not
-            //Add to the Administrator role
-
-            Task<User> testUser = userManager.FindByNameAsync(userName);
-            testUser.Wait();
-
-            if (testUser.Result == null)
-            {
-                User administrator = new User();
-                //administrator.Email = email;
-                administrator.UserName = userName;
-
-                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "123");
-                newUser.Wait();
-
-                if (newUser.Result.Succeeded)
-                {
-                    Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Administrator");
-                    newUserRole.Wait();
-                }
-            }
-            else
-            {
-                Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(testUser.Result, "Administrator");
-                newUserRole.Wait();
-
-                var userRoles = userManager.GetRolesAsync(testUser.Result);
-                userRoles.Wait();
-            }
-        }
-
-        private static void CreateRole(RoleManager<IdentityRole> roleManager, string roleName)
-        {
-            var hasAdminRole = roleManager.RoleExistsAsync(roleName);
-            hasAdminRole.Wait();
-
-            if (!hasAdminRole.Result)
-            {
-                var roleResult = roleManager.CreateAsync(new IdentityRole(roleName));
-                roleResult.Wait();
-            }
+            services.AddScoped<IStatisticsService, StatisticsService>();
         }
     }
 }

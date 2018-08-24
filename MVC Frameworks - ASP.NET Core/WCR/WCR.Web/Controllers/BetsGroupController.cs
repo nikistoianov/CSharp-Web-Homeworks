@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using WCR.Common.Competition.BindingModels;
-using WCR.Common.Constants;
-using WCR.Models;
-using WCR.Services.Competition.Interfaces;
-
-namespace WCR.Web.Controllers
+﻿namespace WCR.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WCR.Common.Competition.BindingModels;
+    using WCR.Common.Constants;
+    using WCR.Models;
+    using WCR.Services.Competition.Interfaces;
+
     public class BetsGroupController : Controller
     {
         private readonly IBetService betService;
@@ -43,6 +42,12 @@ namespace WCR.Web.Controllers
                 return View(betService.PrepareBetGroup(id));
             }
 
+            if (await betService.IsBeggined(true, id))
+            {
+                this.ModelState.AddModelError(string.Empty, "Time is out for prognosis.");
+                return View(betService.PrepareBetGroup(id));
+            }
+
             var distTeams = model.Teams.Select(x => x.Position).Distinct().ToArray();
             if (distTeams.Length != model.Teams.Count)
             {
@@ -64,7 +69,7 @@ namespace WCR.Web.Controllers
             }
             catch
             {
-                this.ModelState.AddModelError(string.Empty, "Error creating bet.");
+                this.ModelState.AddModelError(string.Empty, "Error creating prognosis.");
                 return View(betService.PrepareBetGroup(id));
             }
         }
@@ -90,7 +95,12 @@ namespace WCR.Web.Controllers
                 this.ModelState.AddModelError(string.Empty, "Validation error.");
                 return View(betService.GetBetMatch(id));
             }
-            // todo: validate for begined group
+            
+            if (!this.User.IsInRole(Constants.ROLE_ADMIN) && await betService.IsBeggined(true, id))
+            {
+                this.ModelState.AddModelError(string.Empty, "Time is out for prognosis.");
+                return View(betService.PrepareBetGroup(id));
+            }
 
             var distTeams = model.Teams.Select(x => x.Position).Distinct().ToArray();
             if (distTeams.Length != model.Teams.Count)
@@ -116,5 +126,6 @@ namespace WCR.Web.Controllers
                 return Redirect("/");
             }
         }
+
     }
 }
